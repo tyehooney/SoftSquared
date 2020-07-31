@@ -20,6 +20,7 @@ public class GasStationActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
 
+//    onCreate : View 및 전역변수 지정
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +32,13 @@ public class GasStationActivity extends AppCompatActivity {
         editText_fuel = findViewById(R.id.editText_fuel);
 
         sharedPreferences = getSharedPreferences("state_data", MODE_PRIVATE);
+    }
+
+//    onResume : 현재 연료 정보 불러오기
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume");
 
         fuel = sharedPreferences.getInt("fuel", 0);
         textView_fuel_status.setText("현재 연료 : "+fuel+"km");

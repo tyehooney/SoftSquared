@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Map<String, Integer> distanceMap;
 
-//    onCreate : View 지정
+//    onCreate : View 및 전역변수 지정
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,26 +88,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textView_fuel.setText("연료 : "+fuel+"km");
     }
 
-//    onPause : 진행 중인 thread 정지시키기
+//    onPause : 현재 연료 정보 저장
     @Override
     protected void onPause() {
         super.onPause();
         Log.d(TAG, "onPause");
 
-        if(carThread != null && carThread.isAlive()){
-            carThread.interrupt();
-        }
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("fuel", fuel);
+        editor.apply();
     }
 
-//    onStop : 연료 기록 저장
+//    onStop : 진행 중인 thread가 있을 시 정지시키기
     @Override
     protected void onStop() {
         super.onStop();
         Log.d(TAG, "onStop");
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("fuel", fuel);
-        editor.apply();
+        if(carThread != null && carThread.isAlive()){
+            carThread.interrupt();
+        }
     }
 
 //    onDestroy : sharedPreference data 초기화
@@ -165,6 +165,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.button_change_destination:
+
+                if(carThread != null && carThread.isAlive())
+                    carThread.interrupt();
 
                 startActivity(new Intent(this, DestinationPopupActivity.class));
 
