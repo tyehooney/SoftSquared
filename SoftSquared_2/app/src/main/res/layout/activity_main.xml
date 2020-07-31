@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textView_destination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="목적지 : "
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/button_change_destination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="목적지 바꾸기"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/textView_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="남은 거리 : "
+        android:textSize="24sp"
+        android:layout_marginTop="32dp"/>
+
+    <TextView
+        android:id="@+id/textView_fuel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="연료 : "
+        android:textSize="24sp"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/button_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="출발"
+        android:layout_marginTop="32dp"/>
+
+    <Button
+        android:id="@+id/button_gas_station"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="주유소 가기"
+        />
+
+    <Button
+        android:id="@+id/button_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="68dp"
+        android:text="다시"
+        android:layout_marginTop="8dp"/>
+</LinearLayout>

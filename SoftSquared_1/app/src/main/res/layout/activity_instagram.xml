@@ -304,213 +304,213 @@
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="810dp"
-                android:orientation="horizontal"
-
                 android:columnCount="3"
+
+                android:orientation="horizontal"
                 android:rowCount="5">
 
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1">
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/feed_1"/>
+                        android:src="@drawable/feed_1" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_baseline_file_copy_24"
                         android:layout_gravity="end"
+                        android:layout_marginTop="4dp"
                         android:layout_marginEnd="4dp"
-                        android:layout_marginTop="4dp"/>
+                        android:src="@drawable/ic_baseline_file_copy_24" />
                 </FrameLayout>
 
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_columnWeight="2"
+                    android:layout_rowSpan="2"
                     android:layout_rowWeight="2"
                     android:layout_columnSpan="2"
-                    android:layout_rowSpan="2">
+                    android:layout_columnWeight="2">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/feed_2"/>
+                        android:src="@drawable/feed_2" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_baseline_file_copy_24"
                         android:layout_gravity="end"
+                        android:layout_marginTop="4dp"
                         android:layout_marginEnd="4dp"
-                        android:layout_marginTop="4dp"/>
+                        android:src="@drawable/ic_baseline_file_copy_24" />
                 </FrameLayout>
 
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1">
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/feed_3"/>
+                        android:src="@drawable/feed_3" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_baseline_file_copy_24"
                         android:layout_gravity="end"
+                        android:layout_marginTop="4dp"
                         android:layout_marginEnd="4dp"
-                        android:layout_marginTop="4dp"/>
+                        android:src="@drawable/ic_baseline_file_copy_24" />
                 </FrameLayout>
 
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1">
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/feed_4"/>
+                        android:src="@drawable/feed_4" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_baseline_file_copy_24"
                         android:layout_gravity="end"
+                        android:layout_marginTop="4dp"
                         android:layout_marginEnd="4dp"
-                        android:layout_marginTop="4dp"/>
+                        android:src="@drawable/ic_baseline_file_copy_24" />
                 </FrameLayout>
 
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1">
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/feed_5"/>
+                        android:src="@drawable/feed_5" />
                 </FrameLayout>
 
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1">
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/feed_6"/>
+                        android:src="@drawable/feed_6" />
                 </FrameLayout>
 
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1">
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/feed_7"/>
+                        android:src="@drawable/feed_7" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_baseline_file_copy_24"
                         android:layout_gravity="end"
+                        android:layout_marginTop="4dp"
                         android:layout_marginEnd="4dp"
-                        android:layout_marginTop="4dp"/>
+                        android:src="@drawable/ic_baseline_file_copy_24" />
                 </FrameLayout>
 
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1">
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/feed_8"/>
+                        android:src="@drawable/feed_8" />
                 </FrameLayout>
 
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1">
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/feed_9"/>
+                        android:src="@drawable/feed_9" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_baseline_file_copy_24"
                         android:layout_gravity="end"
+                        android:layout_marginTop="4dp"
                         android:layout_marginEnd="4dp"
-                        android:layout_marginTop="4dp"/>
+                        android:src="@drawable/ic_baseline_file_copy_24" />
                 </FrameLayout>
 
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_columnWeight="2"
+                    android:layout_rowSpan="2"
                     android:layout_rowWeight="2"
                     android:layout_columnSpan="2"
-                    android:layout_rowSpan="2">
+                    android:layout_columnWeight="2">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/feed_10"/>
+                        android:src="@drawable/feed_10" />
                 </FrameLayout>
 
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1">
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/feed_11"/>
+                        android:src="@drawable/feed_11" />
                 </FrameLayout>
 
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1">
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/feed_12"/>
+                        android:src="@drawable/feed_12" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_baseline_file_copy_24"
                         android:layout_gravity="end"
+                        android:layout_marginTop="4dp"
                         android:layout_marginEnd="4dp"
-                        android:layout_marginTop="4dp"/>
+                        android:src="@drawable/ic_baseline_file_copy_24" />
                 </FrameLayout>
             </GridLayout>
         </LinearLayout>
