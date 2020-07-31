@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fuel = sharedPreferences.getInt("fuel", 100);
     }
 
+//    onClick
     @Override
     public void onClick(View view){
         switch (view.getId()){
@@ -164,11 +165,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.button_change_destination:
+
                 startActivity(new Intent(this, DestinationPopupActivity.class));
+
                 break;
         }
     }
 
+//    달리는 차 thread
     class CarThread extends Thread{
         public void run(){
             while(fuel > 0 && !isInterrupted()){
