@@ -1,19 +1,15 @@
 package com.hoonhooney.softsquared_2;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
+//  도착지 선택하는 Popup Activity
 public class DestinationPopupActivity extends Activity {
     private ListView listView_destinations;
     private String[] destinations = {"부산", "울산", "광주", "대전", "대구", "인천"};

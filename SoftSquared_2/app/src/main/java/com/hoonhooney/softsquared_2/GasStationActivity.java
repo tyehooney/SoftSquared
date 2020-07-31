@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,12 +36,7 @@ public class GasStationActivity extends AppCompatActivity {
         textView_fuel_status.setText("현재 연료 : "+fuel+"km");
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "onDestroy");
-    }
-
+//    연료 채우기
     public void chargeFuel(View view){
         fuel = fuel + Integer.parseInt(editText_fuel.getText().toString());
         editText_fuel.setText("");
