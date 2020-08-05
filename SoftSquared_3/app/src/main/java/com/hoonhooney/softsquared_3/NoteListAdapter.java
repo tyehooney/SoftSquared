@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,6 +82,8 @@ public class NoteListAdapter extends BaseAdapter {
             holder.button_edit = view.findViewById(R.id.button_edit);
             holder.button_delete = view.findViewById(R.id.button_delete);
 
+            holder.imageView_photo = view.findViewById(R.id.imageView_item_photo);
+
             holder.relativeLayout_item = view.findViewById(R.id.frameLayout_item);
             holder.linearLayout_details = view.findViewById(R.id.linearLayout_details);
 
@@ -137,8 +141,19 @@ public class NoteListAdapter extends BaseAdapter {
                 }
 
                 if (!note.isFocused()){
+                    //사진
+                    if (note.getPhoto() != null){
+                        Bitmap photoBitmap = DbBitmapUtils.getImage(note.getPhoto());
+                        holder.imageView_photo.setVisibility(View.VISIBLE);
+                        holder.imageView_photo.setImageBitmap(photoBitmap);
+                    }else
+                        holder.imageView_photo.setVisibility(View.GONE);
+
+                    Log.d("itemClick", "details : "+holder.textView_details.getText());
+
                     holder.linearLayout_details.setVisibility(View.VISIBLE);
                     holder.linearLayout_details.startAnimation(down);
+
                     note.setFocused(true);
                 }else{
                     holder.linearLayout_details.setVisibility(View.GONE);
@@ -154,8 +169,6 @@ public class NoteListAdapter extends BaseAdapter {
                 Intent intent = new Intent(mContext, NoteActivity.class);
                 intent.putExtra("edit", true);
                 intent.putExtra("id", note.getId());
-                intent.putExtra("title", note.getTitle());
-                intent.putExtra("details", note.getDetails());
 
                 mContext.startActivity(intent);
             }
@@ -194,6 +207,12 @@ public class NoteListAdapter extends BaseAdapter {
         private RelativeLayout relativeLayout_item;
         private LinearLayout linearLayout_details;
         private TextView textView_title, textView_details, textView_last_edited, textView_created;
-        private ImageView button_edit, button_delete;
+        private ImageView button_edit, button_delete, imageView_photo;
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        
     }
 }

@@ -6,6 +6,7 @@ public class Note {
     private long id;
     private String title;
     private String details;
+    private byte[] photo;
     private Date lastEdited;
     private boolean focused;
 
@@ -53,5 +54,13 @@ public class Note {
 
     public void setFocused(boolean focused) {
         this.focused = focused;
+    }
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photoUriPath) {
+        this.photo = photoUriPath;
     }
 }
