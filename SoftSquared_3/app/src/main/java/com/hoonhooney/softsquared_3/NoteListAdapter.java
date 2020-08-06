@@ -125,12 +125,14 @@ public class NoteListAdapter extends BaseAdapter {
             public void onClick(View view) {
                 //click된 item을 제외한 나머지 -> 글 감추기
                 for (int j = 0; j < noteList.size(); j++) {
-                    if(noteList.get(j) != note && noteList.get(j).isFocused()){
+                    if(j != i && noteList.get(j).isFocused()){
                         //현재 화면에 보이는 item들에게만 적용
-                        int visibleIndex = j - mParent.getFirstVisiblePosition();
-                        if(visibleIndex >= 0){
-                            View notFocusedView = mParent.getChildAt(visibleIndex);
-                            Log.d("notFocusedView", "index : "+j+", childAt : "+mParent.getFirstVisiblePosition());
+                        if(mParent.getFirstVisiblePosition() <= j && j <= mParent.getLastVisiblePosition()){
+                            Log.d("Adapter", "firstVisible : "+mParent.getFirstVisiblePosition()
+                                    +" , lastVisible : "+mParent.getLastVisiblePosition()
+                                    +", j = "+j+", i = "+i);
+
+                            View notFocusedView = mParent.getChildAt(j - mParent.getFirstVisiblePosition());
 
                             NoteViewHolder notFocusedViewHolder = (NoteViewHolder)notFocusedView.getTag();
                             notFocusedViewHolder.linearLayout_details.setVisibility(View.GONE);
@@ -210,11 +212,5 @@ public class NoteListAdapter extends BaseAdapter {
         private LinearLayout linearLayout_details;
         private TextView textView_title, textView_details, textView_last_edited, textView_created;
         private ImageView button_edit, button_delete, imageView_photo;
-    }
-
-    @Override
-    public void notifyDataSetChanged() {
-        super.notifyDataSetChanged();
-
     }
 }

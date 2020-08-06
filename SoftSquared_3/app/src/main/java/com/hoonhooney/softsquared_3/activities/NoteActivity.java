@@ -39,7 +39,6 @@ public class NoteActivity extends AppCompatActivity {
     private boolean edit = false;
     private DBOpenHelper dbHelper;
 
-    private Uri photoUri = null;
     private Bitmap photoBitmap = null;
 
     @Override
@@ -166,7 +165,7 @@ public class NoteActivity extends AppCompatActivity {
 
         if (requestCode == GET_GALLERY_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             try {
-                photoUri = data.getData();
+                Uri photoUri = data.getData();
 
                 Bitmap tempBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
                 int correctDegree = ExifUtils.getExifOrientation(getRealPathFromURI(photoUri));

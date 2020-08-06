@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         Log.d(TAG, "onResume()");
 
-        showDB("last_edited");
+        showDB("last_edited desc");
 
         if (noteList.isEmpty()){
             textView_if_none.setVisibility(View.VISIBLE);
