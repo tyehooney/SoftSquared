@@ -33,6 +33,7 @@
             android:id="@+id/textView_created"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/grey"
             android:textSize="12sp"
             android:text="0000/00/00 00:00"/>
 
@@ -78,6 +79,7 @@
             android:id="@+id/textView_last_edited"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/grey"
             android:text="0000/00/00 00:00"/>
     </LinearLayout>
 </RelativeLayout>

@@ -15,7 +15,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,7 +82,8 @@ public class NoteListAdapter extends BaseAdapter {
 
             holder.imageView_photo = view.findViewById(R.id.imageView_item_photo);
 
-            holder.relativeLayout_item = view.findViewById(R.id.frameLayout_item);
+//            holder.relativeLayout_item = view.findViewById(R.id.frameLayout_item);
+            holder.linearLayout_title = view.findViewById(R.id.linearLayout_title);
             holder.linearLayout_details = view.findViewById(R.id.linearLayout_details);
 
             view.setTag(holder);
@@ -119,7 +119,7 @@ public class NoteListAdapter extends BaseAdapter {
         holder.linearLayout_details.setVisibility(note.isFocused() ? View.VISIBLE : View.GONE);
 
         //item onClickListener
-        holder.relativeLayout_item.setOnClickListener(new View.OnClickListener() {
+        holder.linearLayout_title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //click된 item을 제외한 나머지 -> 글 감추기
@@ -147,8 +147,10 @@ public class NoteListAdapter extends BaseAdapter {
                         Bitmap photoBitmap = DbBitmapUtils.getImage(note.getPhoto());
                         holder.imageView_photo.setVisibility(View.VISIBLE);
                         holder.imageView_photo.setImageBitmap(photoBitmap);
-                    }else
+                    }else{
                         holder.imageView_photo.setVisibility(View.GONE);
+                        holder.imageView_photo.setImageBitmap(null);
+                    }
 
                     Log.d("itemClick", "details : "+holder.textView_details.getText());
 
@@ -207,8 +209,7 @@ public class NoteListAdapter extends BaseAdapter {
     }
 
     public static class NoteViewHolder{
-        private RelativeLayout relativeLayout_item;
-        private LinearLayout linearLayout_details;
+        private LinearLayout linearLayout_title, linearLayout_details;
         private TextView textView_title, textView_details, textView_last_edited, textView_created;
         private ImageView button_edit, button_delete, imageView_photo;
     }

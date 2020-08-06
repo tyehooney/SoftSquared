@@ -14,6 +14,12 @@
         android:background="@drawable/border_bottom">
 
         <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_small"
+            android:layout_centerInParent="true"/>
+
+        <ImageView
             android:id="@+id/button_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,6 +32,7 @@
         android:id="@+id/listView_notes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/light_grey"
         android:divider="@color/white"/>
 
     <TextView
