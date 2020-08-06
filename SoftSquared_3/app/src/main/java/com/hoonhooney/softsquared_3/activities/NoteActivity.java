@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -96,6 +97,30 @@ public class NoteActivity extends AppCompatActivity {
             }
         });
 
+        //사진 삭제 기능
+        imageView_photo.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(NoteActivity.this);
+                builder.setTitle("사진 삭제")
+                        .setMessage("해당 사진을 삭제하시겠습니까?")
+                        .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                photoBitmap = null;
+                                imageView_photo.setImageBitmap(null);
+                                imageView_photo.setVisibility(View.GONE);
+
+                                Toast.makeText(NoteActivity.this, "사진이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                            }
+                        }).setNegativeButton("아니오", null)
+                .create().show();
+
+                return false;
+            }
+        });
+
         //글 저장
         button_save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,6 +180,7 @@ public class NoteActivity extends AppCompatActivity {
         }
     }
 
+//    이미지 절대경로 가져오기
     private String getRealPathFromURI(Uri contentURI) {
         String result;
 

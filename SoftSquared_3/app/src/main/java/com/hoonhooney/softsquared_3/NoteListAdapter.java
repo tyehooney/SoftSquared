@@ -57,7 +57,7 @@ public class NoteListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, final ViewGroup viewGroup) {
 
         final Note note = noteList.get(i);
 
@@ -154,6 +154,8 @@ public class NoteListAdapter extends BaseAdapter {
                     holder.linearLayout_details.setVisibility(View.VISIBLE);
                     holder.linearLayout_details.startAnimation(down);
 
+                    ((ListView)viewGroup).setSelection(i);
+
                     note.setFocused(true);
                 }else{
                     holder.linearLayout_details.setVisibility(View.GONE);
@@ -192,7 +194,7 @@ public class NoteListAdapter extends BaseAdapter {
                                 notifyDataSetChanged();
                                 Toast.makeText(mContext, "삭제 완료", Toast.LENGTH_SHORT).show();
 
-                                ((MainActivity)mContext).onResume();
+                                NoteListAdapter.this.notifyDataSetChanged();
                             }
                         }).setNegativeButton("아니오", null)
                         .create()
@@ -213,6 +215,6 @@ public class NoteListAdapter extends BaseAdapter {
     @Override
     public void notifyDataSetChanged() {
         super.notifyDataSetChanged();
-        
+
     }
 }
