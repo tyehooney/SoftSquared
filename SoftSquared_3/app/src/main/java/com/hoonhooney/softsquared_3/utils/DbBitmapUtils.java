@@ -1,4 +1,4 @@
-package com.hoonhooney.softsquared_3;
+package com.hoonhooney.softsquared_3.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

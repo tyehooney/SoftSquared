@@ -8,23 +8,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.hoonhooney.softsquared_3.DbBitmapUtils;
-import com.hoonhooney.softsquared_3.ExifUtils;
+import com.hoonhooney.softsquared_3.utils.DbBitmapUtils;
+import com.hoonhooney.softsquared_3.utils.ExifUtils;
 import com.hoonhooney.softsquared_3.Note;
 import com.hoonhooney.softsquared_3.R;
 import com.hoonhooney.softsquared_3.database.DBOpenHelper;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
 

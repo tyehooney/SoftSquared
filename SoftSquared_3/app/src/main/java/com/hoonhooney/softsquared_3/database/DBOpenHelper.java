@@ -1,6 +1,5 @@
 package com.hoonhooney.softsquared_3.database;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
