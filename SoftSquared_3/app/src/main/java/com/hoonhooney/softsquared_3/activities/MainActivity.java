@@ -9,8 +9,13 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,12 +35,16 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     private ListView listView_notes;
-    private ImageView button_add, imageView_logo;
+    private ImageView button_add, button_search, imageView_logo;
     private TextView textView_if_none;
+    private EditText editText_search;
+    private boolean searchShown = false;
+    private InputMethodManager imm;
 
     private DBOpenHelper dbHelper;
 
     private List<Note> noteList = new ArrayList<>();
+    private List<Note> copyList = new ArrayList<>();
     private NoteListAdapter noteListAdapter;
 
     String[] permission_list = {
@@ -51,10 +60,15 @@ public class MainActivity extends AppCompatActivity {
 
         listView_notes = findViewById(R.id.listView_notes);
         button_add = findViewById(R.id.button_add);
+        button_search = findViewById(R.id.button_search);
 
         imageView_logo = findViewById(R.id.imageView_logo_small);
 
         textView_if_none = findViewById(R.id.textView_if_none);
+
+        editText_search = findViewById(R.id.editText_search);
+
+        imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
         dbHelper = new DBOpenHelper(MainActivity.this);
         dbHelper.open();
@@ -79,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
             textView_if_none.setVisibility(View.GONE);
         }
 
+        //추가
         button_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,6 +101,53 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //검색
+        button_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchShown = !searchShown;
+                if (searchShown){
+                    editText_search.setVisibility(View.VISIBLE);
+                    //자동으로 키보드 보이기
+                    editText_search.requestFocus();
+                    imm.showSoftInput(editText_search, 0);
+                }else{
+                    editText_search.setText("");
+                    editText_search.setVisibility(View.GONE);
+                    imm.hideSoftInputFromWindow(editText_search.getWindowToken(), 0);
+                }
+            }
+        });
+
+        editText_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String text = editText_search.getText().toString();
+                search(text);
+            }
+        });
+
+        editText_search.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (i == KeyEvent.KEYCODE_ENTER){
+                    imm.hideSoftInputFromWindow(editText_search.getWindowToken(), 0);
+                }
+                return false;
+            }
+        });
+
+        //맨 위로 스크롤
         imageView_logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd HH:mm");
 
         noteList.clear();
+        copyList.clear();
 
         while(cursor.moveToNext()){
             try{
@@ -123,9 +186,32 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        copyList.addAll(noteList);
+
         noteListAdapter.notifyDataSetChanged();
     }
 
+    //검색
+    private void search(String str){
+        noteList.clear();
+
+        if (str.length() == 0)
+            showDB("last_edited desc");
+        else{
+
+            for (Note note : copyList){
+                if ((note.getTitle().toLowerCase().contains(str) ||
+                        note.getDetails().toLowerCase().contains(str)) &&
+                        !noteList.contains(note)){
+                    noteList.add(note);
+                }
+            }
+
+            noteListAdapter.notifyDataSetChanged();
+        }
+    }
+
+    //권한 확인
     public void checkPermission(){
         //현재 안드로이드 버전이 6.0미만이면 메서드를 종료한다.
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
@@ -158,5 +244,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        dbHelper.close();
     }
 }

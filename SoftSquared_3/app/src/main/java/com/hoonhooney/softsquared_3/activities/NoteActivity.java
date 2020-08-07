@@ -60,7 +60,7 @@ public class NoteActivity extends AppCompatActivity {
             if (edit){
                 id = bundle.getLong("id");
 
-                note = dbHelper.searchNoteFromDB(id);
+                note = dbHelper.getNoteFromDB(id);
 
                 if (note != null){
                     editText_title.setText(note.getTitle());

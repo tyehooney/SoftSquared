@@ -6,12 +6,15 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
+import android.util.Log;
 
 import com.hoonhooney.softsquared_3.Note;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class DBOpenHelper {
     private static final String DB_NAME = "Note.db";
@@ -84,7 +87,7 @@ public class DBOpenHelper {
     }
 
 //    Search
-    public Note searchNoteFromDB(long id){
+    public Note getNoteFromDB(long id){
         Note note = null;
         try {
             Cursor c = mDB.rawQuery("SELECT * FROM "+Databases.CreateDB._TABLE_NAME
