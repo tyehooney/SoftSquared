@@ -13,11 +13,13 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,8 +36,10 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
+    private String sortBy = "last_edited desc";
+
     private ListView listView_notes;
-    private ImageView button_add, button_search, imageView_logo;
+    private ImageView button_add, button_search, button_sort, imageView_logo;
     private TextView textView_if_none;
     private EditText editText_search;
     private boolean searchShown = false;
@@ -61,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         listView_notes = findViewById(R.id.listView_notes);
         button_add = findViewById(R.id.button_add);
         button_search = findViewById(R.id.button_search);
+        button_sort = findViewById(R.id.button_sort);
 
         imageView_logo = findViewById(R.id.imageView_logo_small);
 
@@ -85,13 +90,48 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         Log.d(TAG, "onResume()");
 
-        showDB("last_edited desc");
+        showDB(sortBy);
 
         if (noteList.isEmpty()){
             textView_if_none.setVisibility(View.VISIBLE);
         } else{
             textView_if_none.setVisibility(View.GONE);
         }
+
+        //정렬 방식 변경
+        button_sort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(getApplicationContext(), view);
+
+                getMenuInflater().inflate(R.menu.menu_sort, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()){
+                            case R.id.sort_last_edited:
+                                sortBy = "last_edited desc";
+                                break;
+                            case R.id.sort_first_created:
+                                sortBy = "_id";
+                                break;
+                            case R.id.sort_title_text:
+                                sortBy = "title";
+                                break;
+                            default:
+                                break;
+                        }
+
+                        Toast.makeText(MainActivity.this,
+                                menuItem.getTitle()+"으로 정렬", Toast.LENGTH_SHORT).show();
+                        showDB(sortBy);
+                        return false;
+                    }
+                });
+
+                popupMenu.show();
+            }
+        });
 
         //추가
         button_add.setOnClickListener(new View.OnClickListener() {
