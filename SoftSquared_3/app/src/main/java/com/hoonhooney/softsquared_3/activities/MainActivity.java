@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     private ListView listView_notes;
-    private ImageView button_add;
+    private ImageView button_add, imageView_logo;
     private TextView textView_if_none;
 
     private DBOpenHelper dbHelper;
@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
 
         listView_notes = findViewById(R.id.listView_notes);
         button_add = findViewById(R.id.button_add);
+
+        imageView_logo = findViewById(R.id.imageView_logo_small);
 
         textView_if_none = findViewById(R.id.textView_if_none);
 
@@ -81,6 +83,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, NoteActivity.class));
+            }
+        });
+
+        imageView_logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for (Note note : noteList)
+                    note.setFocused(false);
+                noteListAdapter.notifyDataSetChanged();
+                listView_notes.smoothScrollToPosition(0);
             }
         });
     }

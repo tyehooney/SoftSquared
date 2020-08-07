@@ -82,7 +82,6 @@ public class NoteListAdapter extends BaseAdapter {
 
             holder.imageView_photo = view.findViewById(R.id.imageView_item_photo);
 
-//            holder.relativeLayout_item = view.findViewById(R.id.frameLayout_item);
             holder.linearLayout_title = view.findViewById(R.id.linearLayout_title);
             holder.linearLayout_details = view.findViewById(R.id.linearLayout_details);
 
@@ -116,7 +115,20 @@ public class NoteListAdapter extends BaseAdapter {
 
         holder.textView_last_edited.setText(lastEditedToString);
 
-        holder.linearLayout_details.setVisibility(note.isFocused() ? View.VISIBLE : View.GONE);
+        //이미 열려져 있는 노트는 열린 상태 유지
+        if(note.isFocused()){
+            holder.linearLayout_details.setVisibility(View.VISIBLE);
+            //사진
+            if (note.getPhoto() != null){
+                Bitmap photoBitmap = DbBitmapUtils.getImage(note.getPhoto());
+                holder.imageView_photo.setVisibility(View.VISIBLE);
+                holder.imageView_photo.setImageBitmap(photoBitmap);
+            }else{
+                holder.imageView_photo.setVisibility(View.GONE);
+                holder.imageView_photo.setImageBitmap(null);
+            }
+        }else
+            holder.linearLayout_details.setVisibility(View.GONE);
 
         //item onClickListener
         holder.linearLayout_title.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +154,8 @@ public class NoteListAdapter extends BaseAdapter {
                 }
 
                 if (!note.isFocused()){
+                    ((ListView)viewGroup).setSelection(i);
+
                     //사진
                     if (note.getPhoto() != null){
                         Bitmap photoBitmap = DbBitmapUtils.getImage(note.getPhoto());
@@ -156,8 +170,6 @@ public class NoteListAdapter extends BaseAdapter {
 
                     holder.linearLayout_details.setVisibility(View.VISIBLE);
                     holder.linearLayout_details.startAnimation(down);
-
-                    ((ListView)viewGroup).setSelection(i);
 
                     note.setFocused(true);
                 }else{
@@ -196,8 +208,6 @@ public class NoteListAdapter extends BaseAdapter {
                                 noteList.remove(note);
                                 notifyDataSetChanged();
                                 Toast.makeText(mContext, "삭제 완료", Toast.LENGTH_SHORT).show();
-
-                                NoteListAdapter.this.notifyDataSetChanged();
                             }
                         }).setNegativeButton("아니오", null)
                         .create()

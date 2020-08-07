@@ -18,6 +18,7 @@
             android:id="@+id/imageView_item_photo"
             android:layout_width="wrap_content"
             android:layout_height="150dp"
+            android:layout_gravity="center_horizontal"
             android:visibility="gone"/>
 
         <TextView
@@ -73,7 +74,7 @@
             android:textColor="@color/black"
             android:text="Title"
             android:textStyle="bold"
-            android:textSize="24sp"/>
+            android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/textView_last_edited"
