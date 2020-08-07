@@ -56,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:maxLines="1"
                 android:hint="Title"/>
 
@@ -73,7 +73,7 @@
                 android:layout_weight="1"
                 android:layout_marginTop="16dp"
                 android:background="@android:color/transparent"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:gravity="top"
                 android:hint="Details"/>
         </LinearLayout>
