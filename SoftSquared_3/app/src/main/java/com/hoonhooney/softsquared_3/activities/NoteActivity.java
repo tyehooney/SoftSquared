@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -37,10 +38,11 @@ public class NoteActivity extends AppCompatActivity {
 
     private ImageView button_back, button_save, button_add_photo, imageView_photo;
     private EditText editText_title, editText_details;
-    private Note note;
     private long id;
     private boolean edit = false;
     private DBOpenHelper dbHelper;
+
+    private InputMethodManager imm;
 
     private Bitmap photoBitmap = null;
 
@@ -59,28 +61,60 @@ public class NoteActivity extends AppCompatActivity {
         dbHelper = new DBOpenHelper(NoteActivity.this);
         dbHelper.open();
 
+        imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+
         //새 글 생성인지 기존 글 수정인지 확인
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
             edit = bundle.getBoolean("edit", false);
-            if (edit){
-                id = bundle.getLong("id");
+        }
+        if (edit){
+            id = bundle.getLong("id");
 
-                note = dbHelper.getNoteFromDB(id);
+            Note note = dbHelper.getNoteFromDB(id);
 
-                if (note != null){
-                    editText_title.setText(note.getTitle());
-                    editText_details.setText(note.getDetails());
+            if (note != null){
+                editText_title.setText(note.getTitle());
+                editText_details.setText(note.getDetails());
 
-                    if (note.getPhoto() != null){
-                        photoBitmap = DbBitmapUtils.getImage(note.getPhoto());
-                        imageView_photo.setVisibility(View.VISIBLE);
-                        imageView_photo.setImageBitmap(photoBitmap);
-                    }
+                if (note.getPhoto() != null){
+                    photoBitmap = DbBitmapUtils.getImage(note.getPhoto());
+                    imageView_photo.setVisibility(View.VISIBLE);
+                    imageView_photo.setImageBitmap(photoBitmap);
+                }
+            }
+        }else{
+            editText_title.requestFocus();
+        }
+
+        setListeners();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && data != null && data.getData() != null){
+            if (requestCode == GET_GALLERY_IMAGE || requestCode == TAKE_PHOTO){
+                try {
+                    Uri photoUri = data.getData();
+
+                    Bitmap tempBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
+                    int correctDegree = requestCode == GET_GALLERY_IMAGE ?
+                            ExifUtils.getExifOrientation(getRealPathFromURI(photoUri))
+                            : ExifUtils.getExifOrientation(photoUri.toString());
+                    photoBitmap = ExifUtils.getRotatedBitmap(tempBitmap, correctDegree);
+
+                    imageView_photo.setVisibility(View.VISIBLE);
+                    imageView_photo.setImageBitmap(photoBitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }
+    }
 
+    private void setListeners(){
         //뒤로 가기
         button_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +127,6 @@ public class NoteActivity extends AppCompatActivity {
         button_add_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
                 if (editText_title.hasFocus())
                     imm.hideSoftInputFromWindow(editText_title.getWindowToken(),0);
                 else if (editText_details.hasFocus())
@@ -153,7 +186,7 @@ public class NoteActivity extends AppCompatActivity {
                                 Toast.makeText(NoteActivity.this, "사진이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                             }
                         }).setNegativeButton("아니오", null)
-                .create().show();
+                        .create().show();
 
                 return false;
             }
@@ -163,6 +196,11 @@ public class NoteActivity extends AppCompatActivity {
         button_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (editText_title.hasFocus())
+                    imm.hideSoftInputFromWindow(editText_title.getWindowToken(),0);
+                else if (editText_details.hasFocus())
+                    imm.hideSoftInputFromWindow(editText_details.getWindowToken(), 0);
+
                 final String title = editText_title.getText().toString();
                 final String details = editText_details.getText().toString();
 
@@ -181,10 +219,10 @@ public class NoteActivity extends AppCompatActivity {
                                     byte[] photoByteArray = photoBitmap == null ? null : DbBitmapUtils.getBytes(photoBitmap);
 
                                     if(edit){
-                                        dbHelper.updateColumn(id, title, details, photoByteArray, new Date(System.currentTimeMillis()));
+                                        dbHelper.updateColumn(id, title, details, photoByteArray, new Date());
                                     }
                                     else{
-                                        dbHelper.insertColumn(System.currentTimeMillis(), title, details, photoByteArray, new Date(System.currentTimeMillis()));
+                                        dbHelper.insertColumn(System.currentTimeMillis(), title, details, photoByteArray, new Date());
                                     }
 
                                     Toast.makeText(NoteActivity.this, "저장 완료!", Toast.LENGTH_SHORT).show();
@@ -196,30 +234,6 @@ public class NoteActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK && data != null && data.getData() != null){
-            if (requestCode == GET_GALLERY_IMAGE || requestCode == TAKE_PHOTO){
-                try {
-                    Uri photoUri = data.getData();
-
-                    Bitmap tempBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
-                    int correctDegree = requestCode == GET_GALLERY_IMAGE ?
-                            ExifUtils.getExifOrientation(getRealPathFromURI(photoUri))
-                            : ExifUtils.getExifOrientation(photoUri.toString());
-                    photoBitmap = ExifUtils.getRotatedBitmap(tempBitmap, correctDegree);
-
-                    imageView_photo.setVisibility(View.VISIBLE);
-                    imageView_photo.setImageBitmap(photoBitmap);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 
 //    이미지 절대경로 가져오기

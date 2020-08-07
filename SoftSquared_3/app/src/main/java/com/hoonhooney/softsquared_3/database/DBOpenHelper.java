@@ -23,7 +23,8 @@ public class DBOpenHelper {
     private DatabaseHelper mDBHelper;
     private Context mContext;
 
-    SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+    SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+    SimpleDateFormat format2 = new SimpleDateFormat("yyyy.MM.dd HH:mm");
 
     private class DatabaseHelper extends SQLiteOpenHelper {
         public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version){
@@ -97,7 +98,8 @@ public class DBOpenHelper {
                 String title = c.getString(1);
                 String details = c.getString(2);
                 byte[] photo = c.getBlob(3);
-                Date lastEdited = format.parse(c.getString(4));
+                Date lastEdited = c.getString(4).length() == 16 ?
+                        format2.parse(c.getString(4)) : format.parse(c.getString(4));
 
                 note = new Note(title, details);
                 note.setId(id);

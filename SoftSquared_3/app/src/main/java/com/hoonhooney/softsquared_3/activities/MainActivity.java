@@ -31,6 +31,7 @@ import com.hoonhooney.softsquared_3.database.DBOpenHelper;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -80,9 +81,10 @@ public class MainActivity extends AppCompatActivity {
         dbHelper.create();
 
         noteListAdapter = new NoteListAdapter(this, noteList);
-        listView_notes.setAdapter(noteListAdapter);
 
         checkPermission();
+
+        setListeners();
     }
 
     @Override
@@ -93,11 +95,16 @@ public class MainActivity extends AppCompatActivity {
         showDB(sortBy);
 
         if (noteList.isEmpty()){
+            listView_notes.setVisibility(View.GONE);
             textView_if_none.setVisibility(View.VISIBLE);
         } else{
+            listView_notes.setVisibility(View.VISIBLE);
             textView_if_none.setVisibility(View.GONE);
         }
 
+    }
+
+    private void setListeners(){
         //정렬 방식 변경
         button_sort.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,11 +206,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //데이터 가져오기
     private void showDB(String base) {
         Cursor cursor = dbHelper.sortColumn(base);
         Log.d(TAG, "DB size: "+cursor.getCount());
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+        listView_notes.setAdapter(null);
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+        SimpleDateFormat format2 = new SimpleDateFormat("yyyy.MM.dd HH:mm");
 
         noteList.clear();
         copyList.clear();
@@ -215,11 +226,15 @@ public class MainActivity extends AppCompatActivity {
                 String details = cursor.getString(cursor.getColumnIndex("details"));
                 byte[] photo = cursor.getBlob(cursor.getColumnIndex("photo"));
                 String lastEdited = cursor.getString(cursor.getColumnIndex("last_edited"));
+                Log.d(TAG, id+" : "+lastEdited);
 
                 Note note = new Note(title, details);
                 note.setId(id);
                 note.setPhoto(photo);
-                note.setLastEdited(format.parse(lastEdited));
+                Date last = lastEdited.length() == 16 ?
+                        format2.parse(lastEdited) :
+                        format.parse(lastEdited);
+                note.setLastEdited(last);
                 noteList.add(note);
             } catch (ParseException e){
                 e.printStackTrace();
@@ -228,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
 
         copyList.addAll(noteList);
 
-        noteListAdapter.notifyDataSetChanged();
+        listView_notes.setAdapter(noteListAdapter);
     }
 
     //검색

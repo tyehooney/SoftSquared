@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hoonhooney.softsquared_3.activities.MainActivity;
 import com.hoonhooney.softsquared_3.activities.NoteActivity;
 import com.hoonhooney.softsquared_3.database.DBOpenHelper;
 import com.hoonhooney.softsquared_3.utils.DbBitmapUtils;
@@ -206,7 +207,7 @@ public class NoteListAdapter extends BaseAdapter {
                                 dbHelper.deleteColumn(note.getId());
 
                                 noteList.remove(note);
-                                notifyDataSetChanged();
+                                ((MainActivity)mContext).onResume();
                                 Toast.makeText(mContext, "삭제 완료", Toast.LENGTH_SHORT).show();
                             }
                         }).setNegativeButton("아니오", null)

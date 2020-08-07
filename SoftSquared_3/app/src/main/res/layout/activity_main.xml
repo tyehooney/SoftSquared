@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".activities.MainActivity">
 
     <RelativeLayout
@@ -62,7 +63,6 @@
         android:id="@+id/listView_notes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/light_grey"
         android:divider="@color/white"/>
 
     <TextView
