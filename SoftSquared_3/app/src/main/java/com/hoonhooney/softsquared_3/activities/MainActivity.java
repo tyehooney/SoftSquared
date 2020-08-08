@@ -31,7 +31,6 @@ import com.hoonhooney.softsquared_3.database.DBOpenHelper;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -84,8 +83,6 @@ public class MainActivity extends AppCompatActivity {
         listView_notes.setAdapter(noteListAdapter);
 
         checkPermission();
-
-        setListeners();
     }
 
     @Override
@@ -96,15 +93,17 @@ public class MainActivity extends AppCompatActivity {
         showDB(sortBy);
 
         if (noteList.isEmpty()){
-            listView_notes.setVisibility(View.GONE);
             textView_if_none.setVisibility(View.VISIBLE);
         } else{
-            listView_notes.setVisibility(View.VISIBLE);
             textView_if_none.setVisibility(View.GONE);
         }
+<<<<<<< HEAD
     }
 
     private void setListeners(){
+=======
+
+>>>>>>> parent of 155554e... timestamp  format 수정,  textView 전부 안보이는 현상 수정
         //정렬 방식 변경
         button_sort.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,13 +205,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //데이터 가져오기
     private void showDB(String base) {
         Cursor cursor = dbHelper.sortColumn(base);
         Log.d(TAG, "DB size: "+cursor.getCount());
 
+<<<<<<< HEAD
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
         SimpleDateFormat format2 = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+=======
+        SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+>>>>>>> parent of 155554e... timestamp  format 수정,  textView 전부 안보이는 현상 수정
 
         noteList.clear();
         copyList.clear();
@@ -224,15 +226,11 @@ public class MainActivity extends AppCompatActivity {
                 String details = cursor.getString(cursor.getColumnIndex("details"));
                 byte[] photo = cursor.getBlob(cursor.getColumnIndex("photo"));
                 String lastEdited = cursor.getString(cursor.getColumnIndex("last_edited"));
-                Log.d(TAG, id+" : "+lastEdited);
 
                 Note note = new Note(title, details);
                 note.setId(id);
                 note.setPhoto(photo);
-                Date last = lastEdited.length() == 16 ?
-                        format2.parse(lastEdited) :
-                        format.parse(lastEdited);
-                note.setLastEdited(last);
+                note.setLastEdited(format.parse(lastEdited));
                 noteList.add(note);
             } catch (ParseException e){
                 e.printStackTrace();
