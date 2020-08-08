@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +58,7 @@ public class NoteListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int i, View view, final ViewGroup viewGroup) {
+        Log.d("adapter", "getView : "+i);
 
         final Note note = noteList.get(i);
 
@@ -68,7 +70,7 @@ public class NoteListAdapter extends BaseAdapter {
             mParent = (ListView) viewGroup;
 
         // 캐시된 뷰가 없을 경우 새로 생성하고 뷰홀더를 생성
-        if(view == null){
+        if(view == null || view.getTag() == null){
             view = LayoutInflater.from(mContext).inflate(R.layout.item_note, viewGroup, false);
 
             holder = new NoteViewHolder();
@@ -217,6 +219,19 @@ public class NoteListAdapter extends BaseAdapter {
         });
 
         return view;
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        Log.d("Adapter", "notifyDataSetChanged");
+        if (mParent != null){
+            for (int i = mParent.getFirstVisiblePosition(); i <= mParent.getLastVisiblePosition(); i++) {
+                Log.d("adapter", "visibleView : "+i);
+                View view = mParent.getChildAt(i);
+                view.setTag(null);
+            }
+        }
     }
 
     public static class NoteViewHolder{

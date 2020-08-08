@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         dbHelper.create();
 
         noteListAdapter = new NoteListAdapter(this, noteList);
+        listView_notes.setAdapter(noteListAdapter);
 
         checkPermission();
 
@@ -211,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = dbHelper.sortColumn(base);
         Log.d(TAG, "DB size: "+cursor.getCount());
 
-        listView_notes.setAdapter(null);
+//        listView_notes.setAdapter(null);
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
         SimpleDateFormat format2 = new SimpleDateFormat("yyyy.MM.dd HH:mm");
@@ -243,7 +244,8 @@ public class MainActivity extends AppCompatActivity {
 
         copyList.addAll(noteList);
 
-        listView_notes.setAdapter(noteListAdapter);
+        noteListAdapter.notifyDataSetChanged();
+//        listView_notes.setAdapter(noteListAdapter);
     }
 
     //검색
