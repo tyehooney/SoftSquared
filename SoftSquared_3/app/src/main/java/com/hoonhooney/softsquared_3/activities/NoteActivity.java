@@ -43,6 +43,8 @@ public class NoteActivity extends AppCompatActivity {
     private boolean edit = false;
     private DBOpenHelper dbHelper;
 
+    private InputMethodManager imm;
+
     private Bitmap photoBitmap = null;
 
     @Override
@@ -60,26 +62,31 @@ public class NoteActivity extends AppCompatActivity {
         dbHelper = new DBOpenHelper(NoteActivity.this);
         dbHelper.open();
 
+        imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+
         //새 글 생성인지 기존 글 수정인지 확인
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
             edit = bundle.getBoolean("edit", false);
-            if (edit){
-                id = bundle.getLong("id");
+        }
+        if (edit){
+            id = bundle.getLong("id");
 
-                note = dbHelper.getNoteFromDB(id);
+            note = dbHelper.getNoteFromDB(id);
 
-                if (note != null){
-                    editText_title.setText(note.getTitle());
-                    editText_details.setText(note.getDetails());
+            if (note != null){
+                editText_title.setText(note.getTitle());
+                editText_details.setText(note.getDetails());
 
-                    if (note.getPhoto() != null){
-                        photoBitmap = DbBitmapUtils.getImage(note.getPhoto());
-                        imageView_photo.setVisibility(View.VISIBLE);
-                        imageView_photo.setImageBitmap(photoBitmap);
-                    }
+                if (note.getPhoto() != null){
+                    photoBitmap = DbBitmapUtils.getImage(note.getPhoto());
+                    imageView_photo.setVisibility(View.VISIBLE);
+                    imageView_photo.setImageBitmap(photoBitmap);
                 }
             }
+        }else{
+            editText_title.requestFocus();
+            imm.showSoftInput(editText_title, 0);
         }
 
         //뒤로 가기
@@ -94,7 +101,6 @@ public class NoteActivity extends AppCompatActivity {
         button_add_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
                 if (editText_title.hasFocus())
                     imm.hideSoftInputFromWindow(editText_title.getWindowToken(),0);
                 else if (editText_details.hasFocus())
@@ -164,6 +170,11 @@ public class NoteActivity extends AppCompatActivity {
         button_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (editText_title.hasFocus())
+                    imm.hideSoftInputFromWindow(editText_title.getWindowToken(),0);
+                else if (editText_details.hasFocus())
+                    imm.hideSoftInputFromWindow(editText_details.getWindowToken(), 0);
+
                 final String title = editText_title.getText().toString();
                 final String details = editText_details.getText().toString();
 

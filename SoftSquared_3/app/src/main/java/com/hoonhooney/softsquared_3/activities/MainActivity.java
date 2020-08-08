@@ -31,6 +31,7 @@ import com.hoonhooney.softsquared_3.database.DBOpenHelper;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -229,7 +230,8 @@ public class MainActivity extends AppCompatActivity {
                 Note note = new Note(title, details);
                 note.setId(id);
                 note.setPhoto(photo);
-                note.setLastEdited(format.parse(lastEdited));
+                Date last = lastEdited.length() == 16 ? format2.parse(lastEdited) : format.parse(lastEdited);
+                note.setLastEdited(last);
                 noteList.add(note);
             } catch (ParseException e){
                 e.printStackTrace();
