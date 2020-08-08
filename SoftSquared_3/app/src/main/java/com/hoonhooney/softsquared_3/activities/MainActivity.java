@@ -102,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
             listView_notes.setVisibility(View.VISIBLE);
             textView_if_none.setVisibility(View.GONE);
         }
-
     }
 
     private void setListeners(){
@@ -212,8 +211,6 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = dbHelper.sortColumn(base);
         Log.d(TAG, "DB size: "+cursor.getCount());
 
-//        listView_notes.setAdapter(null);
-
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
         SimpleDateFormat format2 = new SimpleDateFormat("yyyy.MM.dd HH:mm");
 
@@ -245,7 +242,6 @@ public class MainActivity extends AppCompatActivity {
         copyList.addAll(noteList);
 
         noteListAdapter.notifyDataSetChanged();
-//        listView_notes.setAdapter(noteListAdapter);
     }
 
     //검색
