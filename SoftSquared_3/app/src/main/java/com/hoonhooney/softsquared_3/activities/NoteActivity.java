@@ -13,7 +13,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -89,6 +88,10 @@ public class NoteActivity extends AppCompatActivity {
             imm.showSoftInput(editText_title, 0);
         }
 
+        setListeners();
+    }
+
+    private void setListeners(){
         //뒤로 가기
         button_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,7 +163,7 @@ public class NoteActivity extends AppCompatActivity {
                                 Toast.makeText(NoteActivity.this, "사진이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                             }
                         }).setNegativeButton("아니오", null)
-                .create().show();
+                        .create().show();
 
                 return false;
             }
