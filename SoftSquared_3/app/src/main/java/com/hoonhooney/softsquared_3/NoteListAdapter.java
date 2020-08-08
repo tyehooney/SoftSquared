@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hoonhooney.softsquared_3.activities.MainActivity;
 import com.hoonhooney.softsquared_3.activities.NoteActivity;
 import com.hoonhooney.softsquared_3.database.DBOpenHelper;
 import com.hoonhooney.softsquared_3.utils.DbBitmapUtils;
@@ -208,7 +208,7 @@ public class NoteListAdapter extends BaseAdapter {
                                 dbHelper.deleteColumn(note.getId());
 
                                 noteList.remove(note);
-                                notifyDataSetChanged();
+                                ((MainActivity)mContext).onResume();
                                 Toast.makeText(mContext, "삭제 완료", Toast.LENGTH_SHORT).show();
                             }
                         }).setNegativeButton("아니오", null)
@@ -218,19 +218,6 @@ public class NoteListAdapter extends BaseAdapter {
         });
 
         return view;
-    }
-
-    @Override
-    public void notifyDataSetChanged() {
-        super.notifyDataSetChanged();
-        Log.d("Adapter", "notifyDataSetChanged");
-        if (mParent != null){
-            for (int i = mParent.getFirstVisiblePosition(); i <= mParent.getLastVisiblePosition(); i++) {
-                Log.d("adapter", "visibleView : "+i);
-                View view = mParent.getChildAt(i);
-                view.setTag(null);
-            }
-        }
     }
 
     public static class NoteViewHolder{

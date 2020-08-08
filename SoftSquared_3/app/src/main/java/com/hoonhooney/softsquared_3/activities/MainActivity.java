@@ -80,9 +80,10 @@ public class MainActivity extends AppCompatActivity {
         dbHelper.create();
 
         noteListAdapter = new NoteListAdapter(this, noteList);
-        listView_notes.setAdapter(noteListAdapter);
 
         checkPermission();
+
+        setListeners();
     }
 
     @Override
@@ -93,21 +94,17 @@ public class MainActivity extends AppCompatActivity {
         showDB(sortBy);
 
         if (noteList.isEmpty()){
+            listView_notes.setVisibility(View.GONE);
             textView_if_none.setVisibility(View.VISIBLE);
         } else{
             textView_if_none.setVisibility(View.GONE);
+            listView_notes.setVisibility(View.VISIBLE);
         }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
->>>>>>> parent of a0fc84a... 코드 정리
     }
 
     private void setListeners(){
-=======
 
->>>>>>> parent of 155554e... timestamp  format 수정,  textView 전부 안보이는 현상 수정
         //정렬 방식 변경
         button_sort.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -213,17 +210,10 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = dbHelper.sortColumn(base);
         Log.d(TAG, "DB size: "+cursor.getCount());
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-//        listView_notes.setAdapter(null);
+        listView_notes.setAdapter(null);
 
->>>>>>> parent of a0fc84a... 코드 정리
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
         SimpleDateFormat format2 = new SimpleDateFormat("yyyy.MM.dd HH:mm");
-=======
-        SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd HH:mm");
->>>>>>> parent of 155554e... timestamp  format 수정,  textView 전부 안보이는 현상 수정
 
         noteList.clear();
         copyList.clear();
@@ -248,8 +238,7 @@ public class MainActivity extends AppCompatActivity {
 
         copyList.addAll(noteList);
 
-        noteListAdapter.notifyDataSetChanged();
-//        listView_notes.setAdapter(noteListAdapter);
+        listView_notes.setAdapter(noteListAdapter);
     }
 
     //검색
