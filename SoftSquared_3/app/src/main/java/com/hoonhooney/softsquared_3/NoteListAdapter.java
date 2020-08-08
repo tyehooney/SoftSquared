@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +57,7 @@ public class NoteListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int i, View view, final ViewGroup viewGroup) {
+        Log.d("adapter", "getView : "+i);
 
         final Note note = noteList.get(i);
 
@@ -218,13 +220,13 @@ public class NoteListAdapter extends BaseAdapter {
         return view;
     }
 
-    //Data가 변할 때 보여지는 item viewHolder를 새로고침
     @Override
     public void notifyDataSetChanged() {
         super.notifyDataSetChanged();
         Log.d("Adapter", "notifyDataSetChanged");
         if (mParent != null){
             for (int i = mParent.getFirstVisiblePosition(); i <= mParent.getLastVisiblePosition(); i++) {
+                Log.d("adapter", "visibleView : "+i);
                 View view = mParent.getChildAt(i);
                 view.setTag(null);
             }

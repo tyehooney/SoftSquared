@@ -98,6 +98,10 @@ public class MainActivity extends AppCompatActivity {
             textView_if_none.setVisibility(View.GONE);
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of a0fc84a... 코드 정리
     }
 
     private void setListeners(){
@@ -210,6 +214,11 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "DB size: "+cursor.getCount());
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+//        listView_notes.setAdapter(null);
+
+>>>>>>> parent of a0fc84a... 코드 정리
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
         SimpleDateFormat format2 = new SimpleDateFormat("yyyy.MM.dd HH:mm");
 =======
@@ -240,6 +249,7 @@ public class MainActivity extends AppCompatActivity {
         copyList.addAll(noteList);
 
         noteListAdapter.notifyDataSetChanged();
+//        listView_notes.setAdapter(noteListAdapter);
     }
 
     //검색
