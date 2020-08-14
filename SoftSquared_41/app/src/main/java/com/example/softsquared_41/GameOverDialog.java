@@ -62,6 +62,7 @@ public class GameOverDialog {
                 intent.putExtra("level", level);
                 intent.putExtra("time", time);
                 mContext.startActivity(intent);
+                dialog.dismiss();
                 ((MainActivity)mContext).finish();
             }
         });

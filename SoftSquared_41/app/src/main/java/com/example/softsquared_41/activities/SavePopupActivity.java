@@ -26,6 +26,8 @@ public class SavePopupActivity extends Activity {
 
         setContentView(R.layout.dialog_save_record);
 
+        this.setFinishOnTouchOutside(false);
+
         final EditText et_name = (EditText)findViewById(R.id.editText_save_name);
         Button btn_save = (Button)findViewById(R.id.button_save_save);
         Button btn_exit = (Button)findViewById(R.id.button_save_exit);
@@ -60,6 +62,8 @@ public class SavePopupActivity extends Activity {
                             .create().show();
                 }else{
                     //saving record to db...
+                    imm.hideSoftInputFromWindow(et_name.getWindowToken(), 0);
+
                     DBOpenHelper dbHelper = new DBOpenHelper(SavePopupActivity.this);
                     dbHelper.open();
                     dbHelper.create();

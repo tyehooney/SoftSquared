@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 public class RecordListAdapter extends BaseAdapter {
     private Context mContext;
     private List<Record> records;
+    private ListView mParent;
 
     public RecordListAdapter(Context context, List<Record> recordList){
         this.mContext = context;
@@ -38,6 +40,9 @@ public class RecordListAdapter extends BaseAdapter {
         Record record = records.get(i);
 
         RecordViewHolder holder;
+
+        if (mParent == null)
+            mParent = (ListView) viewGroup;
 
         if (view == null){
             view = LayoutInflater.from(mContext).inflate(R.layout.item_record_list, viewGroup, false);

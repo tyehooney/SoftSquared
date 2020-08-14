@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 public class StoneView extends FrameLayout {
     private static final int MAX_STONE_WIDTH = 150;
-    private static final int MIN_STONE_WIDTH = 50;
+    private static final int MIN_STONE_WIDTH = 60;
     private static final int LEFT = 0;
     private static final int RIGHT = 1;
 

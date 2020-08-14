@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -102,38 +104,50 @@ public class MainActivity extends AppCompatActivity {
             stackThread.interrupt();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setListeners(){
         //게임 시작 / 스택
-        btn_stack.setOnClickListener(new View.OnClickListener() {
+        btn_stack.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                if (!playing && !running){
-                    cdThread = new CountdownThread();
-                    cdThread.start();
-                    btn_stack.setEnabled(false);
-                }else{
-                    //stacking
-                    stackThread.interrupt();
-                    //if success
-                    int realX = currentStone.getFirstDirection() == LEFT ?
-                            distance - currentStone.getStoneWidth() : deviceWidth - distance;
-                    if (realX > lastXOfStone+lastWidthOfStone || realX+currentStone.getStoneWidth() < lastXOfStone){
-                        //gameOver
-                        countThread.interrupt();
-                        playing = false;
-
-                        GameOverDialog dialog = new GameOverDialog(MainActivity.this);
-                        dialog.set(level, runningTime);
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    if (!playing && !running){
+                        cdThread = new CountdownThread();
+                        cdThread.start();
+                        btn_stack.setEnabled(false);
                     }else{
-                        lastXOfStone = realX;
-                        lastWidthOfStone = currentStone.getStoneWidth();
-                        stones.add(currentStone);
-                        level++;
-                        distance = 0;
-                        tv_level.setText("Level "+level);
-                        callStone(level);
+                        //stacking
+                        stackThread.interrupt();
+                        //if success
+                        int realX = currentStone.getFirstDirection() == LEFT ?
+                                distance - currentStone.getStoneWidth() : deviceWidth - distance;
+                        if (realX > lastXOfStone+lastWidthOfStone || realX+currentStone.getStoneWidth() < lastXOfStone){
+                            //gameOver
+                            countThread.interrupt();
+                            playing = false;
+
+                            tv_first.setVisibility(View.VISIBLE);
+                            tv_first.setText("oops...");
+
+                            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    GameOverDialog dialog = new GameOverDialog(MainActivity.this);
+                                    dialog.set(level, runningTime);
+                                }
+                            }, 1000);
+                        }else{
+                            lastXOfStone = realX;
+                            lastWidthOfStone = currentStone.getStoneWidth();
+                            stones.add(currentStone);
+                            level++;
+                            distance = 0;
+                            tv_level.setText("Level "+level);
+                            callStone(level);
+                        }
                     }
                 }
+                return false;
             }
         });
 
