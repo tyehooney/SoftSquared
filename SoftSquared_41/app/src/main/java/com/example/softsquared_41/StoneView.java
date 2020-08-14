@@ -33,8 +33,10 @@ public class StoneView extends FrameLayout {
         stoneWidth = params.width;
 
         direction = (int)((Math.random()*10000)%2);
-        if (level == 0)
+        if (level == 0){
             params.gravity = Gravity.CENTER_HORIZONTAL;
+            findViewById(R.id.frameLayout_stone_bg).setBackground(getResources().getDrawable(R.drawable.bg_grass));
+        }
         else{
             int changedWidth = ChangeUtil.changeToDp(mContext, widthInDp);
             start = changedWidth - (2 * changedWidth);

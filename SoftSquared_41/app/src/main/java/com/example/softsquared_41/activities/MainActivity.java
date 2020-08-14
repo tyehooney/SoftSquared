@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
 
     private int deviceWidth;
 
+    private boolean first;
+
     private List<StoneView> stones = new ArrayList<>();
 
     @Override
@@ -69,28 +71,35 @@ public class MainActivity extends AppCompatActivity {
         DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
 
         deviceWidth = dm.widthPixels;
+
+        first = true;
+
+        setFirstStone();
+        setHandlers();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        setFirstStone();
-        setHandlers();
         setListeners();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (running){
-            btn_pause.setImageResource(R.drawable.ic_baseline_play_arrow);
-            tv_first.setText("Pause");
-            tv_first.setVisibility(View.VISIBLE);
-            btn_stack.setClickable(false);
+        if (cdThread != null)
+            cdThread.interrupt();
+
+        btn_pause.setImageResource(R.drawable.ic_baseline_play_arrow);
+        btn_pause.setVisibility(View.VISIBLE);
+        btn_stack.setEnabled(false);
+        tv_first.setText("Pause");
+        tv_first.setVisibility(View.VISIBLE);
+
+        if (countThread != null)
             countThread.interrupt();
+        if (stackThread != null)
             stackThread.interrupt();
-        }
     }
 
     private void setListeners(){
@@ -101,11 +110,10 @@ public class MainActivity extends AppCompatActivity {
                 if (!playing && !running){
                     cdThread = new CountdownThread();
                     cdThread.start();
-                    btn_stack.setClickable(false);
+                    btn_stack.setEnabled(false);
                 }else{
                     //stacking
-                    if (stackThread.isAlive())
-                        stackThread.interrupt();
+                    stackThread.interrupt();
                     //if success
                     int realX = currentStone.getFirstDirection() == LEFT ?
                             distance - currentStone.getStoneWidth() : deviceWidth - distance;
@@ -133,21 +141,21 @@ public class MainActivity extends AppCompatActivity {
         btn_pause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (playing) {
-                    if (running){
-                        btn_pause.setImageResource(R.drawable.ic_baseline_play_arrow);
-                        tv_first.setText("Pause");
-                        tv_first.setVisibility(View.VISIBLE);
-                        btn_stack.setClickable(false);
+                if (running){
+                    btn_pause.setImageResource(R.drawable.ic_baseline_play_arrow);
+                    tv_first.setText("Pause");
+                    tv_first.setVisibility(View.VISIBLE);
+                    if (countThread != null)
                         countThread.interrupt();
+                    if (stackThread != null)
                         stackThread.interrupt();
-                    }else{
-                        running = true;
-                        cdThread = new CountdownThread();
-                        cdThread.start();
-                        btn_pause.setImageResource(R.drawable.ic_baseline_pause);
-                    }
+                }else{
+                    running = true;
+                    cdThread = new CountdownThread();
+                    cdThread.start();
+                    btn_pause.setImageResource(R.drawable.ic_baseline_pause);
                 }
+                btn_stack.setEnabled(false);
             }
         });
 
@@ -169,16 +177,18 @@ public class MainActivity extends AppCompatActivity {
                 super.handleMessage(msg);
                 if (msg.arg1 > 0){
                     tv_first.setText(msg.arg1+"");
+                    btn_pause.setVisibility(View.GONE);
                 }else if(msg.arg1 == 0){
                     tv_first.setText("Start!");
-                }else if(msg.arg1 == -1){
+                    btn_pause.setVisibility(View.GONE);
+                }else{
                     playing = true;
                     running = true;
 
                     countThread = new CountThread();
                     countThread.start();
 
-                    if (level == 1)
+                    if (level == 1 && first)
                         callStone(level);
                     else{
                         stackThread = new StackThread();
@@ -186,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     tv_first.setVisibility(View.GONE);
-                    btn_stack.setClickable(true);
+                    btn_stack.setEnabled(true);
                     btn_pause.setImageResource(R.drawable.ic_baseline_pause);
                     btn_pause.setVisibility(View.VISIBLE);
                 }
@@ -261,9 +271,10 @@ public class MainActivity extends AppCompatActivity {
 
         currentStone = stone;
 
+        first = false;
+
         stackThread = new StackThread();
         stackThread.start();
-        Log.d("callStone", "stones : "+stones.size());
     }
 
     public void resetGame(){
@@ -296,9 +307,11 @@ public class MainActivity extends AppCompatActivity {
         rl_game.invalidate();
         stones.clear();
 
+        first = true;
+
         setFirstStone();
 
-        btn_stack.setClickable(true);
+        btn_stack.setEnabled(true);
     }
 
 //    Threads
@@ -314,6 +327,7 @@ public class MainActivity extends AppCompatActivity {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
+                    running = false;
                 }
             }
             cdHandler.removeMessages(0);

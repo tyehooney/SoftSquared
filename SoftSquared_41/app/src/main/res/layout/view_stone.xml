@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
+    android:id="@+id/frameLayout_stone_bg"
+    android:layout_width="match_parent" android:layout_height="30dp">
 
     <ImageView
         android:id="@+id/imageView_stone"
         android:layout_width="150dp"
-        android:layout_height="30dp"
+        android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark"
         android:scaleType="centerCrop"/>
 </FrameLayout>
