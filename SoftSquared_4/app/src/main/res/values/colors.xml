@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+
+    <color name="white">#ffffff</color>
+    <color name="translucent">#55dddddd</color>
+    <color name="moreTranslucent">#22dddddd</color>
+    <color name="blue">#2196F3</color>
+
+    <color name="morning">#F8F1E1</color>
+    <color name="morningText">#785C3A</color>
+    <color name="lake">#FAE2D8</color>
+    <color name="lakeText">#754531</color>
+    <color name="sunrise">#FFDEE5</color>
+    <color name="sunriseText">#77454E</color>
+    <color name="piano">#E7DEF1</color>
+    <color name="pianoText">#442D59</color>
+    <color name="heaven">#DFFFF9</color>
+    <color name="heavenText">#204184</color>
+    <color name="rain">#DBFDE4</color>
+    <color name="rainText">#2D5346</color>
+</resources>
