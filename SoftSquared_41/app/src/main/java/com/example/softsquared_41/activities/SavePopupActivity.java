@@ -34,7 +34,7 @@ public class SavePopupActivity extends Activity {
 
         final InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
         et_name.requestFocus();
-        imm.showSoftInput(et_name, 0);
+//        imm.showSoftInput(et_name, 0);
 
         Intent intent = getIntent();
         final int level = intent.getIntExtra("level", 0);

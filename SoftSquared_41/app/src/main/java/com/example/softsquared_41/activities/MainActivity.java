@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
                             tv_first.setVisibility(View.VISIBLE);
                             tv_first.setText("oops...");
+                            btn_stack.setEnabled(false);
 
                             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                                 @Override

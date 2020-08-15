@@ -24,7 +24,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.SavePopupActivity"
-            android:theme="@style/dialog_light"/>
+            android:theme="@style/dialog_light"
+            android:windowSoftInputMode="adjustUnspecified|stateVisible"/>
         <activity
             android:name=".activities.MainActivity"
             android:screenOrientation="portrait" />
