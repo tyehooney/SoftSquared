@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.kakao.auth.ApiErrorCode;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.network.ErrorResult;
+import com.kakao.usermgmt.LoginButton;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.MeV2ResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
@@ -24,14 +26,30 @@ public class LoginActivity extends AppCompatActivity {
 
     private SessionCallback sessionCallback;
 
+    private LoginButton btnLogin;
+
+    private long backKeyPressedTime = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        btnLogin = findViewById(R.id.button_kakao_login);
+
+        synchronized (this){
+            try {
+                wait(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         sessionCallback = new SessionCallback();
         Session.getCurrentSession().addCallback(sessionCallback);
-        Session.getCurrentSession().checkAndImplicitOpen();
+        if(!Session.getCurrentSession().checkAndImplicitOpen()){
+            btnLogin.setVisibility(View.VISIBLE);
+        }//자동 로그인
     }
 
     @Override
@@ -40,6 +58,17 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000){
+            backKeyPressedTime = System.currentTimeMillis();
+            Toast.makeText(this, "뒤로 가기 버튼을 한 번 더 누르면\n앱이 종료됩니다."
+                    , Toast.LENGTH_SHORT).show();
+        }else{
+            finish();
+        }
     }
 
     @Override
@@ -96,8 +125,12 @@ public class LoginActivity extends AppCompatActivity {
 
                         if (profile != null) {
                             Log.d("KAKAO_API", "nickname: " + profile.getNickname());
-                            Log.d("KAKAO_API", "profile image: " + profile.getProfileImageUrl());
                             Log.d("KAKAO_API", "thumbnail image: " + profile.getThumbnailImageUrl());
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            intent.putExtra("nicklname", profile.getNickname());
+                            intent.putExtra("profileImg", profile.getThumbnailImageUrl());
+                            startActivity(intent);
+                            finish();
 
                         } else if (kakaoAccount.profileNeedsAgreement() == OptionalBoolean.TRUE) {
                             // 동의 요청 후 프로필 정보 획득 가능
