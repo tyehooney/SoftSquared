@@ -5,7 +5,9 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
@@ -30,6 +32,8 @@ import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -155,7 +159,22 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void btnLogout() {
-
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("로그아웃")
+                        .setMessage("로그아웃하시겠습니까?")
+                        .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
+                                    @Override
+                                    public void onCompleteLogout() {
+                                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                    }
+                                });
+                            }
+                        }).setNegativeButton("아니오", null).create().show();
             }
         });
     }
