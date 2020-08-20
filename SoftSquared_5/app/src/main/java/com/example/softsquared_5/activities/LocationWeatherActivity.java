@@ -107,6 +107,8 @@ public class LocationWeatherActivity extends AppCompatActivity {
     }
 
     private void getCurrentLocationInfo(){
+        if (sbColor != 0)
+            rl_progressBar.setBackground(ll_background.getBackground());
         rl_progressBar.setVisibility(View.VISIBLE);
 
         ll_hourly.removeAllViews();
@@ -202,14 +204,25 @@ public class LocationWeatherActivity extends AppCompatActivity {
                                 ll_background.setBackground(day ? getDrawable(R.drawable.bg_cool) : getDrawable(R.drawable.bg_cool_night));
                                 sbColor = day? R.color.sb_cool : R.color.sb_cool_night;
 
-                                iv_outer.setImageResource(R.drawable.jacket);
-                                tv_outer.setText("가벼운 점퍼");
+                                if (temp_current > 25) {
+                                    iv_outer.setImageResource(R.drawable.cross);
+                                    tv_outer.setText("없음");
 
-                                iv_top.setImageResource(R.drawable.shirt_1);
-                                tv_top.setText("가벼운 셔츠 또는 티셔츠");
+                                    iv_top.setImageResource(R.drawable.shirt_1);
+                                    tv_top.setText("반팔 셔츠");
 
-                                iv_bottoms.setImageResource(R.drawable.trousers);
-                                tv_bottoms.setText("가벼운 바지");
+                                    iv_bottoms.setImageResource(R.drawable.shorts);
+                                    tv_bottoms.setText("반바지");
+                                } else{
+                                    iv_outer.setImageResource(R.drawable.jacket);
+                                    tv_outer.setText("가벼운 겇옷");
+
+                                    iv_top.setImageResource(R.drawable.shirt_1);
+                                    tv_top.setText("가벼운 셔츠 또는 티셔츠");
+
+                                    iv_bottoms.setImageResource(R.drawable.trousers);
+                                    tv_bottoms.setText("가벼운 바지");
+                                }
                             }
                             WeatherImageUtils.setStatusBarColor(LocationWeatherActivity.this, sbColor);
 
