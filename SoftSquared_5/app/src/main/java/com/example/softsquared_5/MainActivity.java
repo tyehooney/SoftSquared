@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.Address;
@@ -14,9 +15,11 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -43,8 +46,11 @@ public class MainActivity extends AppCompatActivity {
             tv_temp_max, tv_temp_min, tv_humidity, tv_wind,
             tv_weather, tv_outer, tv_top, tv_bottoms;
     private ImageView iv_weather, iv_outer, iv_top, iv_bottoms, btn_menu, btn_refresh;
+    private ViewGroup viewLayout, sideLayout;
     private RelativeLayout rl_progressBar;
     private Animation fadeOut;
+
+    private int sbColor;
 
     private long backKeyPressedTime = 0;
 
@@ -52,10 +58,20 @@ public class MainActivity extends AppCompatActivity {
     private double lat, lon;
     private boolean day = true;
 
+    private long userId;
+    private String userNickname, profileImgUrl;
+
+    private boolean menuShowing = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        userId = intent.getLongExtra("id",0);
+        userNickname = intent.getStringExtra("nickname");
+        profileImgUrl = intent.getStringExtra("profileImg");
 
         setViews();
 
@@ -65,12 +81,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (System.currentTimeMillis() > backKeyPressedTime + 2000){
-            backKeyPressedTime = System.currentTimeMillis();
-            Toast.makeText(this, "뒤로 가기 버튼을 한 번 더 누르면\n앱이 종료됩니다."
-                    , Toast.LENGTH_SHORT).show();
+        if (menuShowing){
+            closeMenu();
         }else{
-            finish();
+            if (System.currentTimeMillis() > backKeyPressedTime + 2000){
+                backKeyPressedTime = System.currentTimeMillis();
+                Toast.makeText(this, "뒤로 가기 버튼을 한 번 더 누르면\n앱이 종료됩니다."
+                        , Toast.LENGTH_SHORT).show();
+            }else{
+                finish();
+            }
         }
     }
 
@@ -98,6 +118,12 @@ public class MainActivity extends AppCompatActivity {
         iv_bottoms = findViewById(R.id.imageView_bottoms);
 
         btn_menu = findViewById(R.id.imageView_menu);
+        btn_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showMenu();
+            }
+        });
         btn_refresh = findViewById(R.id.imageView_refresh);
         btn_refresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +132,61 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        viewLayout = findViewById(R.id.fl_slide);
+        sideLayout = findViewById(R.id.view_sildemenu);
+
+        addSideMenu();
+
         rl_progressBar = findViewById(R.id.relativeLayout_progress);
+    }
+
+    private void addSideMenu(){
+        sideLayout.removeAllViews();
+
+        SideMenuView sideMenu = new SideMenuView(MainActivity.this, userId, userNickname, profileImgUrl);
+
+        sideLayout.addView(sideMenu);
+
+        sideMenu.setEventListener(new SideMenuView.EventListener() {
+            @Override
+            public void btnCancel() {
+                closeMenu();
+            }
+
+            @Override
+            public void btnLogout() {
+
+            }
+        });
+    }
+
+    public void showMenu(){
+        menuShowing = true;
+        Animation slide = AnimationUtils.loadAnimation(MainActivity.this, R.anim.sidemenu_show);
+        sideLayout.startAnimation(slide);
+        viewLayout.setVisibility(View.VISIBLE);
+        viewLayout.setEnabled(true);
+        Animation fade = AnimationUtils.loadAnimation(MainActivity.this, R.anim.fade_in);
+        viewLayout.startAnimation(fade);
+
+        WeatherImageUtils.setStatusBarColor(MainActivity.this, R.color.colorPrimaryDark);
+    }
+
+    public void closeMenu(){
+        menuShowing = false;
+
+        Animation slide = AnimationUtils.loadAnimation(MainActivity.this, R.anim.sidemenu_hidden);
+        sideLayout.startAnimation(slide);
+        Animation fade = AnimationUtils.loadAnimation(MainActivity.this, R.anim.fade_out);
+        viewLayout.startAnimation(fade);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                viewLayout.setVisibility(View.GONE);
+                viewLayout.setEnabled(false);
+                WeatherImageUtils.setStatusBarColor(MainActivity.this, sbColor);
+            }
+        }, 400);
     }
 
     private void getCurrentLocationInfo(){
@@ -183,7 +263,6 @@ public class MainActivity extends AppCompatActivity {
                             else
                                 day = false;
 
-                            int sbColor;
                             if (temp_feels_like > 30 || (temp_feels_like > 25 && humidity > 60)){
                                 ll_background.setBackground(day ? getDrawable(R.drawable.bg_hot) : getDrawable(R.drawable.bg_hot_night));
                                 sbColor = day? R.color.hot_1 : R.color.sb_hot_night;

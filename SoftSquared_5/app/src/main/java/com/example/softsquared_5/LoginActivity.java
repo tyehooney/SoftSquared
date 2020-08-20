@@ -127,7 +127,8 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d("KAKAO_API", "nickname: " + profile.getNickname());
                             Log.d("KAKAO_API", "thumbnail image: " + profile.getThumbnailImageUrl());
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            intent.putExtra("nicklname", profile.getNickname());
+                            intent.putExtra("id", result.getId());
+                            intent.putExtra("nickname", profile.getNickname());
                             intent.putExtra("profileImg", profile.getThumbnailImageUrl());
                             startActivity(intent);
                             finish();

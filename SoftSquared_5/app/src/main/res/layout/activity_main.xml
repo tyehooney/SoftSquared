@@ -373,6 +373,25 @@
         </ScrollView>
     </LinearLayout>
 
+    <FrameLayout
+        android:id="@+id/fl_slide"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.75"
+            android:background="#202735" />
+
+        <FrameLayout
+            android:id="@+id/view_sildemenu"
+            android:layout_width="280dp"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
     <RelativeLayout
         android:id="@+id/relativeLayout_progress"
         android:layout_width="match_parent"
