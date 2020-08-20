@@ -21,4 +21,13 @@ public class MyRetrofit {
     public RetrofitService getService(){
         return service;
     }
+
+    Retrofit placeRetrofit = new Retrofit.Builder()
+            .baseUrl("https://maps.googleapis.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
+
+    RetrofitService placeService = placeRetrofit.create(RetrofitService.class);
+
+    public RetrofitService getPlaceService(){return placeService;}
 }

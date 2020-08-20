@@ -1,4 +1,4 @@
-package com.example.softsquared_5;
+package com.example.softsquared_5.activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.softsquared_5.R;
 import com.kakao.auth.ApiErrorCode;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;

@@ -1,4 +1,4 @@
-package com.example.softsquared_5;
+package com.example.softsquared_5.views;
 
 import android.content.Context;
 import android.graphics.Canvas;

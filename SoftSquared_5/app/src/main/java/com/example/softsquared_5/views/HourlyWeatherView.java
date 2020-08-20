@@ -1,10 +1,13 @@
-package com.example.softsquared_5;
+package com.example.softsquared_5.views;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.softsquared_5.R;
+import com.example.softsquared_5.WeatherImageUtils;
 
 import java.util.Date;
 
@@ -36,6 +39,6 @@ public class HourlyWeatherView extends LinearLayout {
 
         boolean day = hour >= 6 && hour <= 19;
 
-        WeatherImageUtils.updateWeatherState(weather, iv_weather, null, day);
+        WeatherImageUtils.updateWeatherState(weather, iv_weather, day);
     }
 }

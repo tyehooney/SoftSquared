@@ -16,7 +16,7 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
-        <activity android:name=".LoginActivity"
+        <activity android:name=".activities.LoginActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
+        <activity android:name=".activities.MainActivity"
+            android:theme="@style/WeatherTheme"/>
+        <activity android:name=".activities.LocationWeatherActivity"
             android:theme="@style/WeatherTheme"/>
     </application>
 

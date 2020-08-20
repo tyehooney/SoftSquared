@@ -26,4 +26,5 @@
     <color name="sb_cool_night">#05007C</color>
 
     <color name="font_white">#ffffff</color>
+    <color name="font_black">#000000</color>
 </resources>

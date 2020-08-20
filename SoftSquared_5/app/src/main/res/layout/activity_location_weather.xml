@@ -7,7 +7,7 @@
     tools:context=".activities.MainActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout_main_bg"
+        android:id="@+id/linearLayout_location_main_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_cool"
@@ -19,14 +19,14 @@
             android:padding="12dp">
 
             <ImageView
-                android:id="@+id/imageView_menu"
+                android:id="@+id/imageView_location_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_menu_24"
+                android:src="@drawable/ic_baseline_arrow_back_24"
                 android:layout_alignParentStart="true"/>
 
             <ImageView
-                android:id="@+id/imageView_refresh"
+                android:id="@+id/imageView_location_refresh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_refresh_24"
@@ -47,7 +47,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView_today"
+                    android:id="@+id/textView_location_today"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="오늘의 날씨"
@@ -58,7 +58,7 @@
                     android:fontFamily="@font/js_dongkang"/>
 
                 <TextView
-                    android:id="@+id/textView_location"
+                    android:id="@+id/textView_other_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="지역"
@@ -69,7 +69,7 @@
                     android:fontFamily="@font/js_dongkang"/>
 
                 <ImageView
-                    android:id="@+id/imageView_weather"
+                    android:id="@+id/imageView_location_weather"
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:src="@drawable/weather_sun"
@@ -77,7 +77,7 @@
                     android:layout_marginTop="12dp"/>
 
                 <TextView
-                    android:id="@+id/textView_weather"
+                    android:id="@+id/textView_location_weather"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="맑음"
@@ -93,7 +93,7 @@
                     android:layout_marginTop="8dp">
 
                     <TextView
-                        android:id="@+id/textView_temperature"
+                        android:id="@+id/textView_location_temperature"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="24"
@@ -106,7 +106,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="ºC"
-                        android:layout_toEndOf="@+id/textView_temperature"
+                        android:layout_toEndOf="@+id/textView_location_temperature"
                         android:layout_marginTop="28dp"
                         android:textSize="24sp"
                         android:textColor="@color/font_white"
@@ -114,7 +114,7 @@
                 </RelativeLayout>
 
                 <TextView
-                    android:id="@+id/textView_temp_feels_like"
+                    android:id="@+id/textView_location_temp_feels_like"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -131,7 +131,7 @@
                     android:gravity="center">
 
                     <TextView
-                        android:id="@+id/textView_temp_max"
+                        android:id="@+id/textView_location_temp_max"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="최고 : "
@@ -139,7 +139,7 @@
                         android:fontFamily="@font/js_dongkang"/>
 
                     <TextView
-                        android:id="@+id/textView_temp_min"
+                        android:id="@+id/textView_location_temp_min"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="최저 : "
@@ -169,7 +169,7 @@
                             android:src="@drawable/humidity"/>
 
                         <TextView
-                            android:id="@+id/textView_humidity"
+                            android:id="@+id/textView_location_humidity"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="습도 : "
@@ -192,7 +192,7 @@
                             android:layout_height="45dp"/>
 
                         <TextView
-                            android:id="@+id/textView_wind"
+                            android:id="@+id/textView_location_wind"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="풍속 : "
@@ -241,7 +241,7 @@
                             android:fontFamily="@font/js_dongkang"/>
 
                         <ImageView
-                            android:id="@+id/imageView_outer"
+                            android:id="@+id/imageView_location_outer"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:src="@drawable/cross"
@@ -249,7 +249,7 @@
                             android:layout_gravity="center_horizontal"/>
 
                         <TextView
-                            android:id="@+id/textView_outer"
+                            android:id="@+id/textView_location_outer"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="없음"
@@ -277,7 +277,7 @@
                             android:fontFamily="@font/js_dongkang"/>
 
                         <ImageView
-                            android:id="@+id/imageView_top"
+                            android:id="@+id/imageView_location_top"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:src="@drawable/t_shirt"
@@ -285,7 +285,7 @@
                             android:layout_gravity="center_horizontal"/>
 
                         <TextView
-                            android:id="@+id/textView_top"
+                            android:id="@+id/textView_location_top"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="티셔츠"
@@ -313,7 +313,7 @@
                             android:fontFamily="@font/js_dongkang"/>
 
                         <ImageView
-                            android:id="@+id/imageView_bottoms"
+                            android:id="@+id/imageView_location_bottoms"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:src="@drawable/trousers"
@@ -321,7 +321,7 @@
                             android:layout_gravity="center_horizontal"/>
 
                         <TextView
-                            android:id="@+id/textView_bottoms"
+                            android:id="@+id/textView_location_bottoms"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="긴바지"
@@ -335,7 +335,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/linearLayout_tips"
+                    android:id="@+id/linearLayout_location_tips"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -364,7 +364,7 @@
                     android:scrollbars="none">
 
                     <LinearLayout
-                        android:id="@+id/linearLayout_hourly"
+                        android:id="@+id/linearLayout_location_hourly"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal" />
@@ -373,27 +373,8 @@
         </ScrollView>
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/fl_slide"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.75"
-            android:background="#202735" />
-
-        <FrameLayout
-            android:id="@+id/view_sildemenu"
-            android:layout_width="280dp"
-            android:layout_height="match_parent" />
-
-    </FrameLayout>
-
     <RelativeLayout
-        android:id="@+id/relativeLayout_progress"
+        android:id="@+id/relativeLayout_location_progress"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
