@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="80dp"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/textView_hourly_hour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="시간"
+        android:textColor="@color/font_white"
+        android:textSize="16sp"
+        android:fontFamily="@font/js_dongkang"/>
+
+    <ImageView
+        android:id="@+id/imageView_hourly_weather"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/weather_sun"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textView_hourly_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="최고"
+        android:textColor="@color/font_white"
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        android:fontFamily="@font/js_dongkang"/>
+</LinearLayout>
