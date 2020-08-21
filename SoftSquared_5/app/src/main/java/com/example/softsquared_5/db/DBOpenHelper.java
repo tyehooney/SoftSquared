@@ -6,6 +6,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
+import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
 
@@ -81,28 +82,17 @@ public class DBOpenHelper {
     }
 
 //    Search
-//    public Note getNoteFromDB(long id){
-//        Note note = null;
-//        try {
-//            Cursor c = mDB.rawQuery("SELECT * FROM "+Databases.CreateDB._TABLE_NAME
-//                    +" WHERE _id= "+id+";", null);
-//
-//            while(c.moveToNext()){
-//                String title = c.getString(1);
-//                String details = c.getString(2);
-//                byte[] photo = c.getBlob(3);
-//                Date lastEdited = c.getString(4).length() == 16 ? format2.parse(c.getString(4)) : format.parse(c.getString(4));
-//
-//                note = new Note(title, details);
-//                note.setId(id);
-//                note.setPhoto(photo);
-//                note.setLastEdited(lastEdited);
-//            }
-//
-//            return note;
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
+    public String getPlaceFromDB(long id, String name, double lat, double lon){
+        String place = null;
+        Cursor c = mDB.rawQuery("SELECT * FROM "+Databases.CreateDB._TABLE_NAME
+                +" WHERE userId="+id+" AND name='"+name+"' AND lat="+lat+" AND lon="+lon+";", null);
+
+        while (c.moveToNext()){
+            place = c.getString(2);
+        }
+
+        Log.d("DBDB", "place : "+place);
+
+        return place;
+    }
 }

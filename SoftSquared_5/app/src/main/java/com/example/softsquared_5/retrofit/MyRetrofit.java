@@ -1,4 +1,4 @@
-package com.example.softsquared_5;
+package com.example.softsquared_5.retrofit;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

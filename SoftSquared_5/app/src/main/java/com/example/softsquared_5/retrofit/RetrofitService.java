@@ -1,4 +1,4 @@
-package com.example.softsquared_5;
+package com.example.softsquared_5.retrofit;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

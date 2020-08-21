@@ -123,7 +123,7 @@ public class SideMenuView extends LinearLayout {
         final TextView tv_location = new TextView(mContext);
         tv_location.setText(location);
         tv_location.setTextColor(mContext.getResources().getColor(R.color.font_black));
-        tv_location.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        tv_location.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         tv_location.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -156,7 +156,7 @@ public class SideMenuView extends LinearLayout {
             }
         });
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        params.setMargins(0, 10, 0, 0);
+        params.setMargins(0, 10, 0, 10);
         tv_location.setLayoutParams(params);
         ll_other_locations.addView(tv_location);
         ll_other_locations.invalidate();

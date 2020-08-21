@@ -16,9 +16,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.softsquared_5.MyRetrofit;
+import com.example.softsquared_5.retrofit.MyRetrofit;
 import com.example.softsquared_5.R;
-import com.example.softsquared_5.RetrofitService;
+import com.example.softsquared_5.retrofit.RetrofitService;
 import com.example.softsquared_5.WeatherImageUtils;
 import com.example.softsquared_5.views.HourlyWeatherView;
 import com.google.gson.JsonArray;
@@ -140,15 +140,14 @@ public class LocationWeatherActivity extends AppCompatActivity {
                     JsonObject object = response.body();
                     if (object != null){
                         long timezoneOffset = object.get("timezone_offset").getAsLong();
+                        long realTime = ((System.currentTimeMillis()/1000)
+                                - timezoneOffsetOfHere + timezoneOffset)*1000;
+                        Date currentDate = new Date(realTime);
+                        tv_today.setText(format.format(currentDate));
 
                         //현재 날씨
                         JsonObject current = object.getAsJsonObject("current");
                         if (current != null){
-                            long dt = current.get("dt").getAsLong();
-                            long realTime = (dt - timezoneOffsetOfHere + timezoneOffset)*1000;
-                            Date currentDate = new Date(realTime);
-                            tv_today.setText(format.format(currentDate));
-
                             float temp_current = current.get("temp").getAsFloat() - 273;
                             float temp_feels_like = current.get("feels_like").getAsFloat() - 273;
                             int humidity = current.get("humidity").getAsInt();
@@ -208,14 +207,14 @@ public class LocationWeatherActivity extends AppCompatActivity {
                                     iv_outer.setImageResource(R.drawable.cross);
                                     tv_outer.setText("없음");
 
-                                    iv_top.setImageResource(R.drawable.shirt_1);
+                                    iv_top.setImageResource(R.drawable.shirt);
                                     tv_top.setText("반팔 셔츠");
 
                                     iv_bottoms.setImageResource(R.drawable.shorts);
                                     tv_bottoms.setText("반바지");
                                 } else{
                                     iv_outer.setImageResource(R.drawable.jacket);
-                                    tv_outer.setText("가벼운 겇옷");
+                                    tv_outer.setText("가벼운 겉옷");
 
                                     iv_top.setImageResource(R.drawable.shirt_1);
                                     tv_top.setText("가벼운 셔츠 또는 티셔츠");
@@ -261,7 +260,7 @@ public class LocationWeatherActivity extends AppCompatActivity {
                                 tv_temp_max.setText("최고 : "+Math.round(max)+"ºC");
                                 tv_temp_min.setText("최저 : "+ Math.round(min)+"ºC");
 
-                                if (max - min > 10){
+                                if (max - min > 10 && min < 20){
                                     TextView tv_tip = new TextView(LocationWeatherActivity.this);
                                     tv_tip.setText("* 일교차가 심해서 장기간 밖에 머무르신다면 겉옷을 챙기세요!");
                                     tv_tip.setTextColor(getResources().getColor(R.color.font_white));
@@ -279,7 +278,7 @@ public class LocationWeatherActivity extends AppCompatActivity {
                                 JsonObject hour = hourlyArray.get(i).getAsJsonObject();
                                 if (hour != null){
                                     long time = hour.get("dt").getAsLong();
-                                    long realTime = time - timezoneOffsetOfHere + timezoneOffset;
+                                    long timeThere = time - timezoneOffsetOfHere + timezoneOffset;
                                     int temp = hour.get("temp").getAsInt() - 273;
 
                                     JsonArray hourlyWeather = hour.getAsJsonArray("weather");
@@ -287,7 +286,7 @@ public class LocationWeatherActivity extends AppCompatActivity {
                                         String weather = hourlyWeather.get(0).getAsJsonObject()
                                                 .get("main").getAsString();
                                         HourlyWeatherView hwv = new HourlyWeatherView(LocationWeatherActivity.this,
-                                                realTime, weather, temp);
+                                                timeThere, weather, temp);
                                         ll_hourly.addView(hwv);
                                     }
                                 }

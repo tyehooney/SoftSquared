@@ -30,9 +30,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.softsquared_5.views.HourlyWeatherView;
-import com.example.softsquared_5.MyRetrofit;
+import com.example.softsquared_5.retrofit.MyRetrofit;
 import com.example.softsquared_5.R;
-import com.example.softsquared_5.RetrofitService;
+import com.example.softsquared_5.retrofit.RetrofitService;
 import com.example.softsquared_5.views.SideMenuView;
 import com.example.softsquared_5.WeatherImageUtils;
 import com.google.gson.JsonArray;
@@ -351,14 +351,14 @@ public class MainActivity extends AppCompatActivity {
                                     iv_outer.setImageResource(R.drawable.cross);
                                     tv_outer.setText("없음");
 
-                                    iv_top.setImageResource(R.drawable.shirt_1);
+                                    iv_top.setImageResource(R.drawable.shirt);
                                     tv_top.setText("반팔 셔츠");
 
                                     iv_bottoms.setImageResource(R.drawable.shorts);
                                     tv_bottoms.setText("반바지");
                                 } else{
                                     iv_outer.setImageResource(R.drawable.jacket);
-                                    tv_outer.setText("가벼운 겇옷");
+                                    tv_outer.setText("가벼운 겉옷");
 
                                     iv_top.setImageResource(R.drawable.shirt_1);
                                     tv_top.setText("가벼운 셔츠 또는 티셔츠");

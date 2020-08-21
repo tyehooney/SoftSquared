@@ -3,9 +3,6 @@ package com.example.softsquared_5;
 import android.app.Activity;
 import android.os.Build;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import androidx.annotation.Nullable;
 
 public class WeatherImageUtils {
 
@@ -41,6 +38,7 @@ public class WeatherImageUtils {
                 break;
             case "Clouds":
                 iv.setImageResource(R.drawable.weather_cloudy);
+                break;
         }
     }
 
