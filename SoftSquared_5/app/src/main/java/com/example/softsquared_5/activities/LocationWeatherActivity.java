@@ -244,7 +244,6 @@ public class LocationWeatherActivity extends AppCompatActivity {
                                     tv_bottoms.setText("가벼운 바지");
                                 }
                             }
-                            WeatherImageUtils.setStatusBarColor(LocationWeatherActivity.this, sbColor);
 
                             tv_temperature.setText(Math.round(temp_current)+"");
                             tv_temp_feels_like.setText("체감 기온 : "+Math.round(temp_feels_like)+"ºC");
@@ -259,14 +258,23 @@ public class LocationWeatherActivity extends AppCompatActivity {
                                     .get("description").getAsString();
                             tv_weather.setText(description);
 
-                            if (mainWeather.equals("Rain") || mainWeather.equals("Drizzle")){
+                            if (mainWeather.equals("Rain") || mainWeather.equals("Drizzle")
+                                    || mainWeather.equals("Thunderstorm") || mainWeather.equals("Tornado")){
+                                ll_background.setBackground(day ? getDrawable(R.drawable.bg_rain) : getDrawable(R.drawable.bg_rain_night));
+                                sbColor = day? R.color.sb_rain : R.color.sb_rain_night;
+
                                 TextView tv_tip = new TextView(LocationWeatherActivity.this);
-                                tv_tip.setText("* 외출 시 우산 꼭 챙기세요!");
+                                if (mainWeather.equals("Rain") || mainWeather.equals("Drizzle")){
+                                    tv_tip.setText("* 외출 시 우산 꼭 챙기세요!");
+                                }else{
+                                    tv_tip.setText("밖이 위험하니 가능하면 장시간 실외활동은 삼가해주세요!");
+                                }
                                 tv_tip.setTextColor(getResources().getColor(R.color.font_white));
                                 tv_tip.setTypeface(Typeface.createFromAsset(getAssets(), "font/js_dongkang.otf"));
                                 tv_tip.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                                 ll_tips.addView(tv_tip);
                             }
+                            WeatherImageUtils.setStatusBarColor(LocationWeatherActivity.this, sbColor);
                         }
 
                         //오늘 최저, 최고 기온

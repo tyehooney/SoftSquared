@@ -20,10 +20,12 @@
     <color name="cool_4">#436f8a</color>
 
     <color name="sb_cold">#9500BCD4</color>
-    <color name="sb_cool">#00BCD4</color>
+    <color name="sb_cool">#e200BCD4</color>
     <color name="sb_cold_night">#954F00A6</color>
     <color name="sb_hot_night">#000082</color>
-    <color name="sb_cool_night">#05007C</color>
+    <color name="sb_cool_night">#e205007C</color>
+    <color name="sb_rain">#e29FCCD2</color>
+    <color name="sb_rain_night">#e2435557</color>
 
     <color name="font_white">#ffffff</color>
     <color name="font_black">#000000</color>

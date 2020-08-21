@@ -6,11 +6,22 @@
     android:padding="8dp">
 
     <TextView
+        android:id="@+id/textView_hourly_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="시간"
+        android:textColor="@color/font_white"
+        android:textSize="16sp"
+        android:fontFamily="@font/js_dongkang"
+        android:visibility="invisible"/>
+
+    <TextView
         android:id="@+id/textView_hourly_hour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="시간"
         android:textColor="@color/font_white"
+        android:layout_marginTop="4dp"
         android:textSize="16sp"
         android:fontFamily="@font/js_dongkang"/>
 

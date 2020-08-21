@@ -68,6 +68,12 @@ public class SearchPlaceDialog {
                 et_search.requestFocus();
             }
         });
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            }
+        });
 
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
