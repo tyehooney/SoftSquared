@@ -60,18 +60,18 @@ public class SearchPlaceDialog {
         Button btn_search = dialog.findViewById(R.id.button_search);
 
         imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
                 et_search.requestFocus();
+                imm.showSoftInput(et_search, 0);
             }
         });
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                imm.hideSoftInputFromWindow(et_search.getWindowToken(), 0);
             }
         });
 
@@ -131,7 +131,8 @@ public class SearchPlaceDialog {
                                             dbHelper.insertColumn(id, name, lat, lon);
                                             dbHelper.close();
                                             //새 activity 호출
-                                            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+//                                            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                                            imm.hideSoftInputFromWindow(et_search.getWindowToken(), 0);
 
                                             Intent intent = new Intent(mContext, LocationWeatherActivity.class);
                                             intent.putExtra("place", name);

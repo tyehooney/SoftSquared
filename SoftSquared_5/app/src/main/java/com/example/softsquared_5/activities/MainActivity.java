@@ -1,5 +1,6 @@
 package com.example.softsquared_5.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     private long backKeyPressedTime = 0;
 
     private LocationManager lm;
-    private double lat, lon;
+    private double lat = 37.55, lon = 126.32;
     private boolean day = true;
 
     private long userId;
@@ -89,11 +90,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
-        userId = intent.getLongExtra("id",0);
+        userId = intent.getLongExtra("id", 0);
         userNickname = intent.getStringExtra("nickname");
         profileImgUrl = intent.getStringExtra("profileImg");
 
-        if(userId == 0 || userNickname == null){
+        if (userId == 0 || userNickname == null) {
             Toast.makeText(this, "로그인 정보를 받지 못했습니다.", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
@@ -104,25 +105,39 @@ public class MainActivity extends AppCompatActivity {
         setViews();
 
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        getCurrentLocationInfo();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    0);
+        } else {
+            getCurrentLocationInfo();
+        }
     }
 
     @Override
     public void onBackPressed() {
-        if (menuShowing){
+        if (menuShowing) {
             closeMenu();
-        }else{
-            if (System.currentTimeMillis() > backKeyPressedTime + 2000){
+        } else {
+            if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
                 backKeyPressedTime = System.currentTimeMillis();
                 Toast.makeText(this, "뒤로 가기 버튼을 한 번 더 누르면\n앱이 종료됩니다."
                         , Toast.LENGTH_SHORT).show();
-            }else{
+            } else {
                 finish();
             }
         }
     }
 
-    private void setViews(){
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 0 && grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            getCurrentLocationInfo();
+        }
+    }
+
+    private void setViews() {
         ll_background = findViewById(R.id.linearLayout_main_bg);
         ll_hourly = findViewById(R.id.linearLayout_hourly);
         ll_tips = findViewById(R.id.linearLayout_tips);
@@ -168,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
         rl_progressBar = findViewById(R.id.relativeLayout_progress);
     }
 
-    private void addSideMenu(){
+    private void addSideMenu() {
         sideLayout.removeAllViews();
 
         SideMenuView sideMenu = new SideMenuView(MainActivity.this, userId, userNickname, profileImgUrl);
@@ -182,7 +197,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void btnShare(){kakaolink();}
+            public void btnShare() {
+                kakaolink();
+            }
 
             @Override
             public void btnLogout() {
@@ -206,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void showMenu(){
+    public void showMenu() {
         menuShowing = true;
         Animation slide = AnimationUtils.loadAnimation(MainActivity.this, R.anim.sidemenu_show);
         sideLayout.startAnimation(slide);
@@ -218,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
         WeatherImageUtils.setStatusBarColor(MainActivity.this, R.color.colorPrimaryDark);
     }
 
-    public void closeMenu(){
+    public void closeMenu() {
         menuShowing = false;
 
         Animation slide = AnimationUtils.loadAnimation(MainActivity.this, R.anim.sidemenu_hidden);
@@ -241,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
         addSideMenu();
     }
 
-    private void getCurrentLocationInfo(){
+    private void getCurrentLocationInfo() {
         if (sbColor != 0)
             rl_progressBar.setBackground(ll_background.getBackground());
         rl_progressBar.setVisibility(View.VISIBLE);
@@ -251,15 +268,14 @@ public class MainActivity extends AppCompatActivity {
 
         fadeOut = AnimationUtils.loadAnimation(MainActivity.this, R.anim.fade_out);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions( MainActivity.this, new String[] {  android.Manifest.permission.ACCESS_FINE_LOCATION  },
-                    0 );
-        }
-
-        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (location != null){
-            lat = location.getLatitude();
-            lon = location.getLongitude();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER) == null ?
+                    lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) : lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (location != null){
+                lat = location.getLatitude();
+                lon = location.getLongitude();
+            }
         }
 
         Geocoder geocoder = new Geocoder(MainActivity.this);
