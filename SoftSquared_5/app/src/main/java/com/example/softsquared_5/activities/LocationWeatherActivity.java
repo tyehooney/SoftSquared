@@ -23,9 +23,18 @@ import com.example.softsquared_5.WeatherImageUtils;
 import com.example.softsquared_5.views.HourlyWeatherView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.kakao.kakaolink.v2.KakaoLinkResponse;
+import com.kakao.kakaolink.v2.KakaoLinkService;
+import com.kakao.message.template.LinkObject;
+import com.kakao.message.template.TextTemplate;
+import com.kakao.network.ErrorResult;
+import com.kakao.network.callback.ResponseCallback;
+import com.kakao.util.helper.log.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,7 +44,7 @@ public class LocationWeatherActivity extends AppCompatActivity {
     private LinearLayout ll_background, ll_hourly, ll_tips;
     private TextView tv_today, tv_location, tv_temperature, tv_temp_feels_like,
             tv_temp_max, tv_temp_min, tv_humidity, tv_wind,
-            tv_weather, tv_outer, tv_top, tv_bottoms;
+            tv_weather, tv_outer, tv_top, tv_bottoms, tv_share;
     private ImageView iv_weather, iv_outer, iv_top, iv_bottoms, btn_back, btn_refresh;
     private RelativeLayout rl_progressBar;
     private Animation fadeOut;
@@ -82,6 +91,13 @@ public class LocationWeatherActivity extends AppCompatActivity {
         tv_outer = findViewById(R.id.textView_location_outer);
         tv_top = findViewById(R.id.textView_location_top);
         tv_bottoms = findViewById(R.id.textView_location_bottoms);
+        tv_share = findViewById(R.id.textView_location_share);
+        tv_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                kakaolink();
+            }
+        });
 
         iv_weather = findViewById(R.id.imageView_location_weather);
         iv_outer = findViewById(R.id.imageView_location_outer);
@@ -305,6 +321,34 @@ public class LocationWeatherActivity extends AppCompatActivity {
                 Log.e("weather api", "fail to get info", t);
                 rl_progressBar.setAnimation(fadeOut);
                 rl_progressBar.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void kakaolink(){
+        String text = place+"의 현재 날씨 정보입니다.\n" +
+                "현재 날씨 : "+tv_temperature.getText().toString()+"ºC, "+tv_weather.getText().toString()+"\n" +
+                tv_temp_min.getText().toString()+", "+tv_temp_max.getText().toString()+"\n\n"+
+                "이곳에 지내기에 적당한 옷차림은 다음과 같습니다.\n" +
+                "겉옷 : "+tv_outer.getText().toString()+"\n" +
+                "상의 : "+tv_top.getText().toString()+"\n" +
+                "하의 : "+tv_bottoms.getText().toString();
+
+        TextTemplate params = TextTemplate.newBuilder(text, LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
+                .setMobileWebUrl("https://developers.kakao.com").build()).build();
+
+        Map<String, String> serverCallbackArgs = new HashMap<String, String>();
+        serverCallbackArgs.put("user_id", "${current_user_id}");
+        serverCallbackArgs.put("product_id", "${shared_product_id}");
+
+        KakaoLinkService.getInstance().sendDefault(this, params, serverCallbackArgs, new ResponseCallback<KakaoLinkResponse>() {
+            @Override
+            public void onFailure(ErrorResult errorResult) {
+                Logger.e(errorResult.toString());
+            }
+
+            @Override
+            public void onSuccess(KakaoLinkResponse result) {
             }
         });
     }

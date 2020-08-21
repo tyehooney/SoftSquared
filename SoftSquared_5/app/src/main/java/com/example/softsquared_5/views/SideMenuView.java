@@ -29,7 +29,7 @@ public class SideMenuView extends LinearLayout {
     private LinearLayout ll_other_locations;
     private RoundImageView iv_profile;
     private ImageView btn_back, btn_add;
-    private TextView tv_nickname, btn_logout;
+    private TextView tv_nickname, btn_share, btn_logout;
 
     private long id;
     private String nickname, imgUrl;
@@ -44,6 +44,7 @@ public class SideMenuView extends LinearLayout {
 
     public interface EventListener{
         void btnCancel();
+        void btnShare();
         void btnLogout();
     }
 
@@ -85,6 +86,14 @@ public class SideMenuView extends LinearLayout {
 
         tv_nickname = findViewById(R.id.textView_menu_nickname);
         tv_nickname.setText(nickname+"님");
+
+        btn_share = findViewById(R.id.textView_share);
+        btn_share.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.btnShare();
+            }
+        });
 
         btn_logout = findViewById(R.id.textView_logout);
         btn_logout.setOnClickListener(new OnClickListener() {

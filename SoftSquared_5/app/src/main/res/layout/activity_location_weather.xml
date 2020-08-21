@@ -369,6 +369,24 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal" />
                 </HorizontalScrollView>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#99ffffff"
+                    android:layout_marginVertical="16dp"
+                    android:layout_marginHorizontal="4dp"/>
+
+                <TextView
+                    android:id="@+id/textView_location_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="날씨 공유하기"
+                    android:textColor="@color/font_white"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="32dp"
+                    android:fontFamily="@font/js_dongkang"/>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

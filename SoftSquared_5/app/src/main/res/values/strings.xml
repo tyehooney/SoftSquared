@@ -2,8 +2,11 @@
     <string name="app_name">SoftSquared_5</string>
 
     <string name="kakao_app_key">31aaacc98a5f10841e51bb028040c6fd</string>
-    <string name="weather_app_key">b34a6de844722721a214d3bc1d771527</string>
-    <string name="google_cp_app_key">AIzaSyA8O29UEBy5us0T20XtzAPITk716YQJuiM</string>
+    <string name="kakao_scheme">kakao31aaacc98a5f10841e51bb028040c6fd</string>
+    <string name="kakaolink_host">kakaolink</string>
 
+    <string name="weather_app_key">b34a6de844722721a214d3bc1d771527</string>
+
+    <string name="google_cp_app_key">AIzaSyA8O29UEBy5us0T20XtzAPITk716YQJuiM</string>
     <string name="search_fields">formatted_address,name,geometry</string>
 </resources>

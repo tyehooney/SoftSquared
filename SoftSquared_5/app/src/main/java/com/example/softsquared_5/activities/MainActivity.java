@@ -37,13 +37,24 @@ import com.example.softsquared_5.views.SideMenuView;
 import com.example.softsquared_5.WeatherImageUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.kakao.kakaolink.v2.KakaoLinkResponse;
+import com.kakao.kakaolink.v2.KakaoLinkService;
+import com.kakao.message.template.ContentObject;
+import com.kakao.message.template.FeedTemplate;
+import com.kakao.message.template.LinkObject;
+import com.kakao.message.template.TextTemplate;
+import com.kakao.network.ErrorResult;
+import com.kakao.network.callback.ResponseCallback;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
+import com.kakao.util.helper.log.Logger;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -165,6 +176,9 @@ public class MainActivity extends AppCompatActivity {
             public void btnCancel() {
                 closeMenu();
             }
+
+            @Override
+            public void btnShare(){kakaolink();}
 
             @Override
             public void btnLogout() {
@@ -447,6 +461,35 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("weather api", "fail to get info", t);
                 rl_progressBar.setAnimation(fadeOut);
                 rl_progressBar.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void kakaolink(){
+        String text = userNickname+"님이 있는 곳의 날씨정보입니다.\n" +
+                "위치 : "+tv_location.getText().toString()+"\n" +
+                "현재 날씨 : "+tv_temperature.getText().toString()+"ºC, "+tv_weather.getText().toString()+"\n" +
+                tv_temp_min.getText().toString()+", "+tv_temp_max.getText().toString()+"\n\n"+
+                "이곳에 지내기에 적당한 옷차림은 다음과 같습니다.\n" +
+                "겉옷 : "+tv_outer.getText().toString()+"\n" +
+                "상의 : "+tv_top.getText().toString()+"\n" +
+                "하의 : "+tv_bottoms.getText().toString();
+
+        TextTemplate params = TextTemplate.newBuilder(text, LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
+                                .setMobileWebUrl("https://developers.kakao.com").build()).build();
+        Map<String, String> serverCallbackArgs = new HashMap<String, String>();
+
+        serverCallbackArgs.put("user_id", "${current_user_id}");
+        serverCallbackArgs.put("product_id", "${shared_product_id}");
+
+        KakaoLinkService.getInstance().sendDefault(this, params, serverCallbackArgs, new ResponseCallback<KakaoLinkResponse>() {
+            @Override
+            public void onFailure(ErrorResult errorResult) {
+                Logger.e(errorResult.toString());
+            }
+
+            @Override
+            public void onSuccess(KakaoLinkResponse result) {
             }
         });
     }
