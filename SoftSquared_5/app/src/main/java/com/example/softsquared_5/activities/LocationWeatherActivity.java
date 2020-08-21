@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -67,6 +68,10 @@ public class LocationWeatherActivity extends AppCompatActivity {
         lat = intent.getDoubleExtra("lat", 0);
         lon = intent.getDoubleExtra("lon", 0);
 
+        if(place == null){
+            Toast.makeText(this, "지역 정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
+            finish();
+        }
         preferences = getSharedPreferences("timezone", 0);
 
         setViews();

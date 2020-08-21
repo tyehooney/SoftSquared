@@ -39,8 +39,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.kakao.kakaolink.v2.KakaoLinkResponse;
 import com.kakao.kakaolink.v2.KakaoLinkService;
-import com.kakao.message.template.ContentObject;
-import com.kakao.message.template.FeedTemplate;
 import com.kakao.message.template.LinkObject;
 import com.kakao.message.template.TextTemplate;
 import com.kakao.network.ErrorResult;
@@ -94,6 +92,12 @@ public class MainActivity extends AppCompatActivity {
         userId = intent.getLongExtra("id",0);
         userNickname = intent.getStringExtra("nickname");
         profileImgUrl = intent.getStringExtra("profileImg");
+
+        if(userId == 0 || userNickname == null){
+            Toast.makeText(this, "로그인 정보를 받지 못했습니다.", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
+        }
 
         preferences = getSharedPreferences("timezone", 0);
 
