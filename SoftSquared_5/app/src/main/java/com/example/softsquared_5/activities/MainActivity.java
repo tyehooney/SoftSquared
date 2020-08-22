@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     private long backKeyPressedTime = 0;
 
     private LocationManager lm;
-    private double lat = 37.4774, lon = 126.8837;
+    private double lat, lon;
     private boolean day = true;
 
     private long userId;
@@ -105,13 +105,19 @@ public class MainActivity extends AppCompatActivity {
 
         preferences = getSharedPreferences("timezone", 0);
 
+        lat = preferences.getFloat("lat", 37.47f);
+        lon = preferences.getFloat("lon", 126.88f);
+
         setViews();
 
         mLocationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
                 lat = location.getLatitude();
                 lon = location.getLongitude();
-                Log.d("TAGTAG", lat+", "+lon);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putFloat("lat", (float)lat);
+                editor.putFloat("lon", (float)lon);
+                editor.apply();
             }
 
             public void onProviderDisabled(String provider) {
@@ -301,16 +307,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         addSideMenu();
-        getCurrentLocationInfo();
     }
 
     private void getCurrentLocationInfo() {
         if (sbColor != 0)
             rl_progressBar.setBackground(ll_background.getBackground());
         rl_progressBar.setVisibility(View.VISIBLE);
-
-        ll_hourly.removeAllViews();
-        ll_tips.removeAllViews();
 
         fadeOut = AnimationUtils.loadAnimation(MainActivity.this, R.anim.fade_out);
 
@@ -327,9 +329,10 @@ public class MainActivity extends AppCompatActivity {
             else{
                 Address address = list.get(0);
                 String locality = address.getLocality() == null ? "" : address.getLocality();
+                String subLocality = address.getSubLocality() == null ? "" : address.getSubLocality();
                 tv_location.setText(address.getCountryName()+" "
                         +address.getAdminArea()+" "
-                        +locality);
+                        +locality+" "+subLocality);
             }
         }
 
@@ -340,6 +343,9 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat format = new SimpleDateFormat("yyyy년 MM월 dd일 HH:mm");
         final Date currentDate = new Date();
         tv_today.setText(format.format(currentDate));
+
+        ll_hourly.removeAllViews();
+        ll_tips.removeAllViews();
 
         RetrofitService retrofitService = MyRetrofit.getInstance().getService();
 
