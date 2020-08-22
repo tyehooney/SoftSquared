@@ -15,6 +15,7 @@ import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -256,6 +257,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         addSideMenu();
+        getCurrentLocationInfo();
     }
 
     private void getCurrentLocationInfo() {
@@ -270,33 +272,55 @@ public class MainActivity extends AppCompatActivity {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER) == null ?
-                    lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) : lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if (location != null){
-                lat = location.getLatitude();
-                lon = location.getLongitude();
-            }
+
+            LocationListener mLocationListener = new LocationListener() {
+                public void onLocationChanged(Location location) {
+                    //여기서 위치값이 갱신되면 이벤트가 발생한다.
+                    //값은 Location 형태로 리턴되며 좌표 출력 방법은 다음과 같다.
+                    lat = location.getLatitude();
+                    lon = location.getLongitude();
+
+                    Geocoder geocoder = new Geocoder(MainActivity.this);
+                    List<Address> list = null;
+                    try {
+                        list = geocoder.getFromLocation(lat, lon, 1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (list != null){
+                        if (list.size() == 0)
+                            tv_location.setText("위치에 해당하는 주소 없음");
+                        else{
+                            Address address = list.get(0);
+                            String locality = address.getLocality() == null ? "" : address.getLocality();
+                            tv_location.setText(address.getCountryName()+" "
+                                    +address.getAdminArea()+" "
+                                    +locality);
+                        }
+                    }
+
+                    getWeather(lat, lon);
+                }
+                public void onProviderDisabled(String provider) {
+                    // Disabled시
+                    Log.d("test", "onProviderDisabled, provider:" + provider);
+                }
+
+                public void onProviderEnabled(String provider) {
+                    // Enabled시
+                    Log.d("test", "onProviderEnabled, provider:" + provider);
+                }
+
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+                    // 변경시
+                    Log.d("test", "onStatusChanged, provider:" + provider + ", status:" + status + " ,Bundle:" + extras);
+                }
+            };
+
+            lm.requestSingleUpdate(LocationManager.GPS_PROVIDER, mLocationListener, null);
+            lm.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, mLocationListener, null);
         }
 
-        Geocoder geocoder = new Geocoder(MainActivity.this);
-        List<Address> list = null;
-        try {
-            list = geocoder.getFromLocation(lat, lon, 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (list != null){
-            if (list.size() == 0)
-                tv_location.setText("위치에 해당하는 주소 없음");
-            else{
-                Address address = list.get(0);
-                tv_location.setText(address.getCountryName()+" "
-                        +address.getAdminArea()+" "
-                        +address.getLocality());
-            }
-        }
-
-        getWeather(lat, lon);
     }
 
     private void getWeather(double latitude, double longitude){
